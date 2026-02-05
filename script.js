@@ -379,7 +379,7 @@ function populateCelebrationGallery() {
         const img = document.createElement('img');
         img.src = imgPath;
         img.alt = '';
-        img.loading = 'lazy';
+
         img.onerror = function() {
             console.warn(`Image failed to load: ${imgPath}`);
             this.parentElement.style.display = 'none';
@@ -440,7 +440,7 @@ function initializeGallery() {
         const img = document.createElement('img');
         img.src = imgPath;
         img.alt = '';
-        img.loading = 'lazy';
+
         img.onerror = function() {
             console.warn(`Image failed to load: ${imgPath}`);
             this.parentElement.style.display = 'none';
