@@ -231,14 +231,14 @@ function showCelebrationPage() {
     gifContainer.innerHTML = `<div class="tenor-gif-embed" data-postid="${dayData.tenorId}" data-share-method="host" data-aspect-ratio="1" data-width="100%"></div>`;
     
     // Force reload Tenor embeds after a brief delay
-    setTimeout(() => {
+    // setTimeout(() => {
         console.log("Reloading tenor script")
         const script = document.createElement('script');
         script.src = 'https://tenor.com/embed.js';
         script.async = true;
         document.body.appendChild(script);
         console.log("Tenor script reloaded")
-    }, 100);
+    // }, 100);
     
     console.log(`Loading Tenor GIF for ${dayData.day} with ID: ${dayData.tenorId}`);
 
