@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💖</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-hearts"></div>
+    <div class="sparkles-container" id="sparkles-container"></div>
+    
+    <section id="passwordPage" class="page active">
+        <div class="password-container">
+            <h1 class="title-text">Click here if you are Tanvi 💖</h1>
+            
+            <div class="tenor-container">
+                <iframe src="https://media.tenor.com/embed?postid=12256602399307210452" frameBorder="0" 
+                        allowFullScreen="true" width="100%" height="400" style="border-radius: 20px;"></iframe>
+            </div>
+            
+            <form id="passwordForm" class="form-container">
+                <div class="form-group">
+                    <label for="nameInput">You my:</label>
+                    <input type="text" id="nameInput" placeholder="Enter your name..." autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <label for="passwordInput">Password:</label>
+                    <input type="password" id="passwordInput" placeholder="Enter password..." autocomplete="off">
+                </div>
+                <button type="submit" class="submit-btn">Enter 💝</button>
+            </form>
+            <div id="errorMessage" class="error-message"></div>
+        </div>
+    </section>
+
+    <section id="proposalPage" class="page">
+        <div class="proposal-container">
+            <h1 class="proposal-title">Will you be my Valentine? 💝</h1>
+            <div class="tenor-container">
+                <iframe src="https://media.tenor.com/embed?postid=16918696612896855928" frameBorder="0" 
+                        allowFullScreen="true" width="100%" height="400" style="border-radius: 20px;"></iframe>
+            </div>
+            <div class="button-container">
+                <button id="yesBtn" class="yes-btn">YES 💖</button>
+                <button id="noBtn" class="no-btn">NO 😢</button>
+            </div>
+            <p class="hint-text">Click YES to unlock special messages 💌</p>
+        </div>
+    </section>
+
+    <section id="celebrationPage" class="page">
+        <div class="celebration-container">
+            <button id="backBtn" class="back-btn">← Back</button>
+            
+            <div class="celebration-gallery-side celebration-gallery-left">
+                <div class="gallery-column" id="celebrationGalleryLeft"></div>
+            </div>
+            
+            <div class="celebration-content">
+                <h2 id="celebrationDay" class="celebration-title"></h2>
+                
+                <div class="calendar-wrapper" style="margin-bottom: 15px;">
+                    <a href="https://calendar.google.com" target="_blank" class="calendar-link">view calendar hyperlink for valentines' week plan</a>
+                </div>
+
+                <p id="celebrationMessage" class="celebration-message"></p>
+                <div id="celebrationGifContainer" class="tenor-container"></div>
+                
+                <div class="celebration-buttons">
+                    <button id="nextBtn" class="next-btn">Need More 💝</button>
+                </div>
+            </div>
+            
+            <div class="celebration-gallery-side celebration-gallery-right">
+                <div class="gallery-column" id="celebrationGalleryRight"></div>
+            </div>
+            
+            <div id="confettiContainer" class="confetti-container"></div>
+        </div>
+    </section>
+
+    <section id="galleryPage" class="page">
+        <div class="gallery-container">
+            <button id="backFromGalleryBtn" class="back-btn">← Back</button>
+            <h2 class="gallery-title">Our Beautiful Memories 📸</h2>
+            <div class="gallery-wrapper">
+                <div class="gallery-column gallery-left" id="galleryLeft"></div>
+                <div class="gallery-column gallery-right" id="galleryRight"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function createFloatingHearts() {
+            const container = document.querySelector('.background-hearts');
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(heart);
+            }
+        }
+        createFloatingHearts();
+    </script>
+    <script src="script.js"></script>
+    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+</body>
+</html>

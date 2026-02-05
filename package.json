@@ -1,0 +1,23 @@
+{
+  "name": "valentine-website",
+  "version": "1.0.0",
+  "description": "Interactive Valentine's Day Proposal Website for Tanvi",
+  "main": "index.html",
+  "scripts": {
+    "serve": "python -m http.server 8000",
+    "build": "echo 'Static site - no build needed'"
+  },
+  "keywords": [
+    "valentine",
+    "proposal",
+    "interactive",
+    "romantic",
+    "website"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/valentine-website"
+  }
+}
