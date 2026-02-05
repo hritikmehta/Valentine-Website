@@ -1,0 +1,80 @@
+{
+  "passwordPage": {
+    "name": "Capybara Cute",
+    "tenorId": "12256602399307210452",
+    "aspectRatio": 1,
+    "description": "Adorable capybara on password entry screen"
+  },
+  "proposalPage": {
+    "name": "I Love You Wedding",
+    "tenorId": "16918696612896855928",
+    "aspectRatio": 1,
+    "description": "Cute wedding-themed love animation"
+  },
+  "accessDenied": {
+    "name": "Running Man",
+    "tenorId": "26291282",
+    "aspectRatio": 1,
+    "description": "Man running away - for access denied"
+  },
+  "valentineDays": [
+    {
+      "day": "Rose Day 🌹",
+      "message": "A rose for the prettiest girl in my world",
+      "tenorId": "12517852071596871944",
+      "aspectRatio": 1,
+      "description": "Love heart sticker"
+    },
+    {
+      "day": "Propose Day 💍",
+      "message": "I choose you today and always",
+      "tenorId": "12630807861956171243",
+      "aspectRatio": 1,
+      "description": "I love you sticker"
+    },
+    {
+      "day": "Chocolate Day 🍫",
+      "message": "You're sweeter than chocolate",
+      "tenorId": "26291282",
+      "aspectRatio": 1,
+      "description": "Chocolate kiss GIF"
+    },
+    {
+      "day": "Teddy Day 🧸",
+      "message": "Hug this teddy until I hug you",
+      "tenorId": "12630807861956171243",
+      "aspectRatio": 1,
+      "description": "Cute teddy sticker"
+    },
+    {
+      "day": "Promise Day 🤝",
+      "message": "I promise to annoy you forever",
+      "tenorId": "12630807861956171243",
+      "aspectRatio": 1,
+      "description": "Promise sticker"
+    },
+    {
+      "day": "Hug Day 🤗",
+      "message": "Sending you the warmest virtual hug",
+      "tenorId": "24676320",
+      "aspectRatio": 0.76875,
+      "description": "Big warm hugs"
+    },
+    {
+      "day": "Kiss Day 😘",
+      "message": "Flying kisses just for you",
+      "tenorId": "16848068541201977632",
+      "aspectRatio": 1,
+      "description": "Kiss sticker"
+    },
+    {
+      "day": "Valentine's Day ❤️",
+      "message": "Will you be my forever Valentine?",
+      "tenorId": "13300892748761143712",
+      "aspectRatio": 1.27692,
+      "description": "Kiss I love you GIF"
+    }
+  ],
+  "galleryImages": [],
+  "backgroundImage": "assets/images/HnT.jpg"
+}
