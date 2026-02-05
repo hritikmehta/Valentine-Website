@@ -1,0 +1,53 @@
+{
+  "passwordPage": {
+    "tenorId": "12256602399307210452"
+  },
+  "proposalPage": {
+    "tenorId": "16918696612896855928"
+  },
+  "accessDenied": {
+    "tenorId": "26291282"
+  },
+  "valentineDays": [
+    {
+      "day": "Rose Day 🌹",
+      "message": "A rose for the prettiest girl in my world",
+      "tenorId": "12517852071596871944"
+    },
+    {
+      "day": "Propose Day 💍",
+      "message": "I choose you today and always",
+      "tenorId": "12630807861956171243"
+    },
+    {
+      "day": "Chocolate Day 🍫",
+      "message": "You're sweeter than chocolate",
+      "tenorId": "26291282"
+    },
+    {
+      "day": "Teddy Day 🧸",
+      "message": "Hug this teddy until I hug you",
+      "tenorId": "12630807861956171243"
+    },
+    {
+      "day": "Promise Day 🤝",
+      "message": "I promise to annoy you forever",
+      "tenorId": "12630807861956171243"
+    },
+    {
+      "day": "Hug Day 🤗",
+      "message": "Sending you the warmest virtual hug",
+      "tenorId": "24676320"
+    },
+    {
+      "day": "Kiss Day 😘",
+      "message": "Flying kisses just for you",
+      "tenorId": "16848068541201977632"
+    },
+    {
+      "day": "Valentine's Day ❤️",
+      "message": "Will you be my forever Valentine?",
+      "tenorId": "13300892748761143712"
+    }
+  ]
+}
