@@ -472,7 +472,7 @@ body {
     flex-direction: column;
     gap: 15px;
     overflow: hidden;
-    animation: scroll-up-continuous 30s linear infinite;
+    animation: scroll-down-continuous 30s linear infinite;
 }
 
 /* Continuous scroll DOWN - loops back seamlessly because content is 4x duplicated */
@@ -481,14 +481,14 @@ body {
         transform: translateY(0);
     }
     100% {
-        transform: translateY(-25%);
+        transform: translateY(-50%);
     }
 }
 
 /* Continuous scroll UP - loops back seamlessly */
 @keyframes scroll-up-continuous {
     0% {
-        transform: translateY(-25%);
+        transform: translateY(-50%);
     }
     100% {
         transform: translateY(0);
