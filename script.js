@@ -356,11 +356,11 @@ function populateCelebrationGallery() {
     // Check for available images (supports both .webp and .jpg)
     const availableImages = [
         'assets/images/img1.webp',
-        'assets/images/img2.jpg',
-        'assets/images/img3.jpg',
+        'assets/images/img2.webp',
+        'assets/images/img3.webp',
         'assets/images/img4.webp',
-        'assets/images/img5.jpg',
-        'assets/images/img6.jpg',
+        'assets/images/img5.webp',
+        'assets/images/img6.webp',
         'assets/images/img7.webp',
         'assets/images/img8.webp',
         'assets/images/img9.webp',
@@ -420,11 +420,11 @@ function initializeGallery() {
     // Check for available images (supports both .webp and .jpg)
     const availableImages = [
         'assets/images/img1.webp',
-        'assets/images/img2.jpg',
-        'assets/images/img3.jpg',
+        'assets/images/img2.webp',
+        'assets/images/img3.webp',
         'assets/images/img4.webp',
-        'assets/images/img5.jpg',
-        'assets/images/img6.jpg',
+        'assets/images/img5.webp',
+        'assets/images/img6.webp',
         'assets/images/img7.webp',
         'assets/images/img8.webp',
         'assets/images/img9.webp',
