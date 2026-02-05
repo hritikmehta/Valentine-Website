@@ -4,10 +4,9 @@
    ================================================================ */
 
 // Configuration Constants
-const PASSWORD = "xyzzz";
+const PASSWORD = "ilovebadmosi";
 let valentineData = null;
 let currentDayIndex = 0;
-const TENOR_API_ENDPOINT = "https://media.tenor.com/embed?postid=";
 
 /* ================================================================
    PAGE SWITCHING UTILITIES
@@ -60,7 +59,7 @@ function loadFallbackData() {
             {
                 day: "Rose Day 🌹",
                 message: "A rose for the prettiest girl in my world",
-                tenorId: "12517852071596871944"
+                tenorId: "16578671122851061924"
             },
             {
                 day: "Propose Day 💍",
@@ -116,19 +115,24 @@ document.getElementById('passwordForm').addEventListener('submit', function (e) 
     errorDiv.innerHTML = '';
 
     // Validate credentials
-    if (name.toLowerCase() !== 'tanvi') {
+    if (name.toLowerCase() !== 'Potato') {
         // Access denied - show running man GIF
         errorDiv.innerHTML = `
             <div style="text-align: center;">
                 <p style="font-size: 1.2rem; margin-bottom: 20px;">🏃 Access denied 😜</p>
                 <p>This is only for Tanvi!</p>
                 <div class="tenor-container" style="margin-top: 20px;">
-                    <iframe src="https://media.tenor.com/embed?postid=${valentineData.accessDenied.tenorId}" 
-                            frameBorder="0" allowFullScreen="true" width="100%" height="300" 
-                            style="border-radius: 15px;"></iframe>
+                    <div class="tenor-gif-embed" data-postid="26291282" data-share-method="host" data-aspect-ratio="1" data-width="100%"></div>
                 </div>
             </div>
         `;
+        // Force reload Tenor embeds
+        setTimeout(() => {
+            const script = document.createElement('script');
+            script.src = 'https://tenor.com/embed.js';
+            script.async = true;
+            document.body.appendChild(script);
+        }, 100);
         return;
     }
 
@@ -222,65 +226,63 @@ function showCelebrationPage() {
     document.getElementById('celebrationDay').textContent = dayData.day;
     document.getElementById('celebrationMessage').textContent = dayData.message;
 
-    // Create Tenor embed
+    // Create Tenor embed - simplified for better rendering
     const gifContainer = document.getElementById('celebrationGifContainer');
-    gifContainer.innerHTML = `
-        <iframe src="https://media.tenor.com/embed?postid=${dayData.tenorId}" 
-                frameBorder="0" allowFullScreen="true" width="100%" height="400" 
-                style="border-radius: 20px;"></iframe>
-    `;
+    gifContainer.innerHTML = `<div class="tenor-gif-embed" data-postid="${dayData.tenorId}" data-share-method="host" data-aspect-ratio="1" data-width="100%"></div>`;
+    
+    // Force reload Tenor embeds after a brief delay
+    // setTimeout(() => {
+        console.log("Reloading tenor script")
+        const script = document.createElement('script');
+        script.src = 'https://tenor.com/embed.js';
+        script.async = true;
+        document.body.appendChild(script);
+        console.log("Tenor script reloaded")
+    // }, 100);
+    
     console.log(`Loading Tenor GIF for ${dayData.day} with ID: ${dayData.tenorId}`);
 
-    // Always show next button (or gallery if it's the last day)
-    if (currentDayIndex === valentineData.valentineDays.length - 1) {
-        // Last day - show gallery button
-        document.querySelector('.celebration-buttons').innerHTML = `
-            <button id="galleryBtn" class="next-btn">View Gallery 📸</button>
-        `;
-        document.getElementById('galleryBtn').addEventListener('click', function () {
-            showPage('galleryPage');
-        });
-    } else {
-        // Show next button for other days
-        document.querySelector('.celebration-buttons').innerHTML = `
-            <button id="nextBtn" class="next-btn">Next 💝</button>
-        `;
-        document.getElementById('nextBtn').addEventListener('click', function () {
-            document.getElementById('yesBtn').click();
-        });
-    }
-    
-    // Always populate the side galleries
+    // Populate celebration gallery with images
     populateCelebrationGallery();
 }
 
-// Back button from celebration
+// Back button from celebration page
 document.getElementById('backBtn').addEventListener('click', function () {
-    yesPresses = 0;
-    currentDayIndex = 0;
     showPage('proposalPage');
 });
 
+// Next button - cycle to next day
+document.getElementById('nextBtn').addEventListener('click', function () {
+    currentDayIndex = (currentDayIndex + 1) % valentineData.valentineDays.length;
+    
+    // Trigger celebrations
+    createBalloons();
+    createConfetti();
+    createSparkles();
+    
+    showCelebrationPage();
+});
+
 /* ================================================================
-   ANIMATION FUNCTIONS
+   CELEBRATION EFFECTS
    ================================================================ */
 
 /**
- * Create floating balloons animation
+ * Create balloons that float upward
  */
 function createBalloons() {
     const container = document.getElementById('confettiContainer');
-    const balloonColors = ['#ff69b4', '#ff1493', '#ff69b4', '#ffb6c1'];
-    const balloonCount = 8;
+    const balloonCount = 15;
+    const colors = ['#ff69b4', '#e91e63', '#ffc0cb', '#ff1493', '#c71585'];
 
     for (let i = 0; i < balloonCount; i++) {
         const balloon = document.createElement('div');
         balloon.className = 'balloon';
         balloon.style.left = Math.random() * window.innerWidth + 'px';
-        balloon.style.bottom = '-60px';
-        balloon.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
-        balloon.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
-        balloon.style.setProperty('--rotate', Math.random() * 720 + 'deg');
+        balloon.style.top = window.innerHeight + 'px';
+        balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        balloon.style.setProperty('--tx', (Math.random() - 0.5) * 300 + 'px');
+        balloon.style.setProperty('--rotate', Math.random() * 360 + 'deg');
 
         container.appendChild(balloon);
 
@@ -290,14 +292,14 @@ function createBalloons() {
 }
 
 /**
- * Create confetti animation
+ * Create confetti explosion
  */
 function createConfetti() {
     const container = document.getElementById('confettiContainer');
-    const confettiPieces = ['❤️', '💖', '💝', '🎉', '✨', '💫'];
-    const pieceCount = 40;
+    const confettiCount = 50;
+    const confettiPieces = ['💖', '💕', '💗', '💓', '💝', '🌹', '💐', '🎀', '✨'];
 
-    for (let i = 0; i < pieceCount; i++) {
+    for (let i = 0; i < confettiCount; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
         confetti.textContent = confettiPieces[Math.floor(Math.random() * confettiPieces.length)];
@@ -342,32 +344,34 @@ function createSparkles() {
 }
 
 /* ================================================================
-   PAGE 4: GALLERY LOGIC
+   PAGE 4: GALLERY LOGIC - TRULY INFINITE CAROUSEL
    ================================================================ */
 
 function populateCelebrationGallery() {
     const galleryLeft = document.getElementById('celebrationGalleryLeft');
     const galleryRight = document.getElementById('celebrationGalleryRight');
 
-    // Clear existing items
+    // Clear existing items to prevent pileup
     galleryLeft.innerHTML = '';
     galleryRight.innerHTML = '';
 
-    // Check for available images (supports both .webp and .jpg)
+    // Support img1-img12.webp
     const availableImages = [
-        'assets/images/img1.webp',
-        'assets/images/img2.webp',
-        'assets/images/img3.webp',
-        'assets/images/img4.webp',
-        'assets/images/img5.webp',
-        'assets/images/img6.webp',
-        'assets/images/img7.webp',
-        'assets/images/img8.webp',
-        'assets/images/img9.webp',
-        'assets/images/img10.webp'
+        'assets/images/img1.webp',   // odd - goes to left
+        'assets/images/img2.webp',   // even - goes to right
+        'assets/images/img3.webp',   // odd - goes to left
+        'assets/images/img4.webp',   // even - goes to right
+        'assets/images/img5.webp',   // odd - goes to left
+        'assets/images/img6.webp',   // even - goes to right
+        'assets/images/img7.webp',   // odd - goes to left
+        'assets/images/img8.webp',   // even - goes to right
+        'assets/images/img9.webp',   // odd - goes to left
+        'assets/images/img10.webp',  // even - goes to right
+        'assets/images/img11.webp',  // odd - goes to left
+        'assets/images/img12.webp'   // even - goes to right
     ];
 
-    // Distribute images between left and right columns
+    // Distribute images: odd numbers (1,3,5,7,9,11) to left, even numbers (2,4,6,8,10,12) to right
     availableImages.forEach((imgPath, index) => {
         const imgContainer = document.createElement('div');
         imgContainer.className = 'gallery-item';
@@ -375,15 +379,16 @@ function populateCelebrationGallery() {
         const img = document.createElement('img');
         img.src = imgPath;
         img.alt = '';
-        img.loading = 'lazy';
+
         img.onerror = function() {
             console.warn(`Image failed to load: ${imgPath}`);
-            this.style.display = 'none';
+            this.parentElement.style.display = 'none';
         };
 
         imgContainer.appendChild(img);
 
-        // Alternate between left and right
+        // index 0,2,4,6,8,10 = img1,3,5,7,9,11 (odd) -> left
+        // index 1,3,5,7,9,11 = img2,4,6,8,10,12 (even) -> right
         if (index % 2 === 0) {
             galleryLeft.appendChild(imgContainer);
         } else {
@@ -391,47 +396,43 @@ function populateCelebrationGallery() {
         }
     });
 
-    // Duplicate items 3 times for smooth infinite scroll loop
-    const allItems = [...galleryLeft.querySelectorAll('.gallery-item')];
-    allItems.forEach(item => {
-        const clone1 = item.cloneNode(true);
-        const clone2 = item.cloneNode(true);
-        const clone3 = item.cloneNode(true);
-        galleryLeft.appendChild(clone1);
-        galleryLeft.appendChild(clone2);
-        galleryLeft.appendChild(clone3);
-    });
+    // Triple duplicate for truly smooth infinite scroll
+    const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
+    for (let i = 0; i < 3; i++) {
+        leftItems.forEach(item => {
+            galleryLeft.appendChild(item.cloneNode(true));
+        });
+    }
 
-    const allItemsRight = [...galleryRight.querySelectorAll('.gallery-item')];
-    allItemsRight.forEach(item => {
-        const clone1 = item.cloneNode(true);
-        const clone2 = item.cloneNode(true);
-        const clone3 = item.cloneNode(true);
-        galleryRight.appendChild(clone1);
-        galleryRight.appendChild(clone2);
-        galleryRight.appendChild(clone3);
-    });
+    const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
+    for (let i = 0; i < 3; i++) {
+        rightItems.forEach(item => {
+            galleryRight.appendChild(item.cloneNode(true));
+        });
+    }
 }
 
 function initializeGallery() {
     const galleryLeft = document.getElementById('galleryLeft');
     const galleryRight = document.getElementById('galleryRight');
 
-    // Check for available images (supports both .webp and .jpg)
+    // Support img1-img12.webp
     const availableImages = [
-        'assets/images/img1.webp',
-        'assets/images/img2.webp',
-        'assets/images/img3.webp',
-        'assets/images/img4.webp',
-        'assets/images/img5.webp',
-        'assets/images/img6.webp',
-        'assets/images/img7.webp',
-        'assets/images/img8.webp',
-        'assets/images/img9.webp',
-        'assets/images/img10.webp'
+        'assets/images/img1.webp',   // odd - goes to left
+        'assets/images/img2.webp',   // even - goes to right
+        'assets/images/img3.webp',   // odd - goes to left
+        'assets/images/img4.webp',   // even - goes to right
+        'assets/images/img5.webp',   // odd - goes to left
+        'assets/images/img6.webp',   // even - goes to right
+        'assets/images/img7.webp',   // odd - goes to left
+        'assets/images/img8.webp',   // even - goes to right
+        'assets/images/img9.webp',   // odd - goes to left
+        'assets/images/img10.webp',  // even - goes to right
+        'assets/images/img11.webp',  // odd - goes to left
+        'assets/images/img12.webp'   // even - goes to right
     ];
 
-    // Distribute images between left and right columns
+    // Distribute images: odd numbers to left, even numbers to right
     availableImages.forEach((imgPath, index) => {
         const imgContainer = document.createElement('div');
         imgContainer.className = 'gallery-item';
@@ -439,15 +440,15 @@ function initializeGallery() {
         const img = document.createElement('img');
         img.src = imgPath;
         img.alt = '';
-        img.loading = 'lazy';
+
         img.onerror = function() {
             console.warn(`Image failed to load: ${imgPath}`);
-            this.style.display = 'none';
+            this.parentElement.style.display = 'none';
         };
 
         imgContainer.appendChild(img);
 
-        // Alternate between left and right
+        // Odd numbered images (1,3,5,7,9,11) to left, even (2,4,6,8,10,12) to right
         if (index % 2 === 0) {
             galleryLeft.appendChild(imgContainer);
         } else {
@@ -455,26 +456,20 @@ function initializeGallery() {
         }
     });
 
-    // Duplicate items 3 times for smooth infinite scroll loop
-    const allItems = [...galleryLeft.querySelectorAll('.gallery-item')];
-    allItems.forEach(item => {
-        const clone1 = item.cloneNode(true);
-        const clone2 = item.cloneNode(true);
-        const clone3 = item.cloneNode(true);
-        galleryLeft.appendChild(clone1);
-        galleryLeft.appendChild(clone2);
-        galleryLeft.appendChild(clone3);
-    });
+    // Triple duplicate for truly smooth infinite scroll
+    const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
+    for (let i = 0; i < 3; i++) {
+        leftItems.forEach(item => {
+            galleryLeft.appendChild(item.cloneNode(true));
+        });
+    }
 
-    const allItemsRight = [...galleryRight.querySelectorAll('.gallery-item')];
-    allItemsRight.forEach(item => {
-        const clone1 = item.cloneNode(true);
-        const clone2 = item.cloneNode(true);
-        const clone3 = item.cloneNode(true);
-        galleryRight.appendChild(clone1);
-        galleryRight.appendChild(clone2);
-        galleryRight.appendChild(clone3);
-    });
+    const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
+    for (let i = 0; i < 3; i++) {
+        rightItems.forEach(item => {
+            galleryRight.appendChild(item.cloneNode(true));
+        });
+    }
 }
 
 // Back button from gallery

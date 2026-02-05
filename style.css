@@ -115,7 +115,7 @@ body {
         opacity: 1;
     }
     100% {
-        transform: translate(var(--tx), var(--ty))) scale(0);
+        transform: translate(var(--tx), var(--ty)) scale(0);
         opacity: 0;
     }
 }
@@ -383,7 +383,7 @@ body {
 }
 
 /* ================================================================
-   PAGE 3: CELEBRATION PAGE
+   PAGE 3: CELEBRATION PAGE - TRULY INFINITE CAROUSEL
    ================================================================ */
 
 .celebration-container {
@@ -455,13 +455,44 @@ body {
     padding: 0;
 }
 
-.celebration-gallery-side .gallery-column {
+/* LEFT COLUMN - Scrolls DOWN continuously */
+.celebration-gallery-left .gallery-column {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 15px;
     overflow: hidden;
-    animation: scroll-down-both 15s linear infinite;
+    animation: scroll-down-continuous 30s linear infinite;
+}
+
+/* RIGHT COLUMN - Scrolls UP continuously */
+.celebration-gallery-right .gallery-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow: hidden;
+    animation: scroll-down-continuous 30s linear infinite;
+}
+
+/* Continuous scroll DOWN - loops back seamlessly because content is 4x duplicated */
+@keyframes scroll-down-continuous {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-50%);
+    }
+}
+
+/* Continuous scroll UP - loops back seamlessly */
+@keyframes scroll-up-continuous {
+    0% {
+        transform: translateY(-50%);
+    }
+    100% {
+        transform: translateY(0);
+    }
 }
 
 .celebration-gallery-side:hover .gallery-column {
@@ -617,20 +648,31 @@ body {
     transform: scale(1.02);
 }
 
+/* LEFT gallery scrolls UP */
 .gallery-left {
-    animation: scroll-up 20s linear infinite;
+    animation: gallery-scroll-up 25s linear infinite;
 }
 
+/* RIGHT gallery scrolls DOWN */
 .gallery-right {
-    animation: scroll-up 20s linear infinite;
+    animation: gallery-scroll-down 25s linear infinite;
 }
 
-@keyframes scroll-up {
+@keyframes gallery-scroll-up {
     0% {
         transform: translateY(0);
     }
     100% {
-        transform: translateY(-50%);
+        transform: translateY(-25%);
+    }
+}
+
+@keyframes gallery-scroll-down {
+    0% {
+        transform: translateY(-25%);
+    }
+    100% {
+        transform: translateY(0);
     }
 }
 
@@ -680,19 +722,6 @@ body {
         height: auto;
         max-height: 80vh;
     }
-
-    /* Infinite Loop Logic */
-    @keyframes scroll-infinite {
-        0% { transform: translateY(0); }
-        100% { transform: translateY(-50%); } /* Halfway because we double the content */
-    }
-
-    .gallery-column {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    animation: scroll-infinite 20s linear infinite !important;
-}
 
     .back-btn {
         top: 15px;
