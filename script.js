@@ -232,10 +232,12 @@ function showCelebrationPage() {
     
     // Force reload Tenor embeds after a brief delay
     setTimeout(() => {
+        console.log("Reloading tenor script")
         const script = document.createElement('script');
         script.src = 'https://tenor.com/embed.js';
         script.async = true;
         document.body.appendChild(script);
+        console.log("Tenor script reloaded")
     }, 100);
     
     console.log(`Loading Tenor GIF for ${dayData.day} with ID: ${dayData.tenorId}`);
