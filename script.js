@@ -122,17 +122,17 @@ document.getElementById('passwordForm').addEventListener('submit', function (e) 
                 <p style="font-size: 1.2rem; margin-bottom: 20px;">🏃 Access denied 😜</p>
                 <p>This is only for Tanvi!</p>
                 <div class="tenor-container" style="margin-top: 20px;">
-                    <div class="tenor-gif-embed" data-postid="${valentineData.accessDenied.tenorId}" data-share-method="host" data-aspect-ratio="1" data-width="100%">
-                        <a href="https://tenor.com/view/chocolate-kiss-gif-26291282">Chocolate Kiss GIF</a>
-                        from <a href="https://tenor.com/search/chocolate+kiss-gifs">Chocolate Kiss GIFs</a>
-                    </div>
+                    <div class="tenor-gif-embed" data-postid="26291282" data-share-method="host" data-aspect-ratio="1" data-width="100%"></div>
                 </div>
             </div>
         `;
-        // Reload Tenor script to render new embed
-        if (window.TenorEmbed) {
-            window.TenorEmbed.mount();
-        }
+        // Force reload Tenor embeds
+        setTimeout(() => {
+            const script = document.createElement('script');
+            script.src = 'https://tenor.com/embed.js';
+            script.async = true;
+            document.body.appendChild(script);
+        }, 100);
         return;
     }
 
@@ -226,19 +226,17 @@ function showCelebrationPage() {
     document.getElementById('celebrationDay').textContent = dayData.day;
     document.getElementById('celebrationMessage').textContent = dayData.message;
 
-    // Create Tenor embed using proper embed div format
+    // Create Tenor embed - simplified for better rendering
     const gifContainer = document.getElementById('celebrationGifContainer');
-    gifContainer.innerHTML = `
-        <div class="tenor-gif-embed" data-postid="${dayData.tenorId}" data-share-method="host" data-aspect-ratio="1" data-width="100%">
-            <a href="https://tenor.com/view/gif-${dayData.tenorId}">GIF</a>
-            from <a href="https://tenor.com/search/love-stickers">Love Stickers</a>
-        </div>
-    `;
+    gifContainer.innerHTML = `<div class="tenor-gif-embed" data-postid="${dayData.tenorId}" data-share-method="host" data-aspect-ratio="1" data-width="100%"></div>`;
     
-    // Reload Tenor script to render new embed
-    if (window.TenorEmbed) {
-        window.TenorEmbed.mount();
-    }
+    // Force reload Tenor embeds after a brief delay
+    setTimeout(() => {
+        const script = document.createElement('script');
+        script.src = 'https://tenor.com/embed.js';
+        script.async = true;
+        document.body.appendChild(script);
+    }, 100);
     
     console.log(`Loading Tenor GIF for ${dayData.day} with ID: ${dayData.tenorId}`);
 
@@ -344,7 +342,7 @@ function createSparkles() {
 }
 
 /* ================================================================
-   PAGE 4: GALLERY LOGIC - INFINITE CAROUSEL WITH ALTERNATING DIRECTIONS
+   PAGE 4: GALLERY LOGIC - TRULY INFINITE CAROUSEL
    ================================================================ */
 
 function populateCelebrationGallery() {
@@ -396,16 +394,20 @@ function populateCelebrationGallery() {
         }
     });
 
-    // Duplicate items for seamless infinite scroll (no pileup, just clones for loop)
+    // Triple duplicate for truly smooth infinite scroll
     const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
-    leftItems.forEach(item => {
-        galleryLeft.appendChild(item.cloneNode(true));
-    });
+    for (let i = 0; i < 3; i++) {
+        leftItems.forEach(item => {
+            galleryLeft.appendChild(item.cloneNode(true));
+        });
+    }
 
     const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
-    rightItems.forEach(item => {
-        galleryRight.appendChild(item.cloneNode(true));
-    });
+    for (let i = 0; i < 3; i++) {
+        rightItems.forEach(item => {
+            galleryRight.appendChild(item.cloneNode(true));
+        });
+    }
 }
 
 function initializeGallery() {
@@ -452,16 +454,20 @@ function initializeGallery() {
         }
     });
 
-    // Duplicate items for seamless infinite scroll
+    // Triple duplicate for truly smooth infinite scroll
     const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
-    leftItems.forEach(item => {
-        galleryLeft.appendChild(item.cloneNode(true));
-    });
+    for (let i = 0; i < 3; i++) {
+        leftItems.forEach(item => {
+            galleryLeft.appendChild(item.cloneNode(true));
+        });
+    }
 
     const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
-    rightItems.forEach(item => {
-        galleryRight.appendChild(item.cloneNode(true));
-    });
+    for (let i = 0; i < 3; i++) {
+        rightItems.forEach(item => {
+            galleryRight.appendChild(item.cloneNode(true));
+        });
+    }
 }
 
 // Back button from gallery

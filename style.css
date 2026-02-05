@@ -383,7 +383,7 @@ body {
 }
 
 /* ================================================================
-   PAGE 3: CELEBRATION PAGE - INFINITE CAROUSEL
+   PAGE 3: CELEBRATION PAGE - TRULY INFINITE CAROUSEL
    ================================================================ */
 
 .celebration-container {
@@ -455,40 +455,40 @@ body {
     padding: 0;
 }
 
-/* LEFT COLUMN - Scrolls DOWN (top to bottom) */
+/* LEFT COLUMN - Scrolls DOWN continuously */
 .celebration-gallery-left .gallery-column {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 15px;
     overflow: hidden;
-    animation: scroll-down-infinite 25s linear infinite;
+    animation: scroll-down-continuous 30s linear infinite;
 }
 
-/* RIGHT COLUMN - Scrolls UP (bottom to top) */
+/* RIGHT COLUMN - Scrolls UP continuously */
 .celebration-gallery-right .gallery-column {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 15px;
     overflow: hidden;
-    animation: scroll-up-infinite 25s linear infinite;
+    animation: scroll-up-continuous 30s linear infinite;
 }
 
-/* Infinite scroll DOWN - for LEFT column */
-@keyframes scroll-down-infinite {
+/* Continuous scroll DOWN - loops back seamlessly because content is 4x duplicated */
+@keyframes scroll-down-continuous {
     0% {
         transform: translateY(0);
     }
     100% {
-        transform: translateY(50%);
+        transform: translateY(-25%);
     }
 }
 
-/* Infinite scroll UP - for RIGHT column */
-@keyframes scroll-up-infinite {
+/* Continuous scroll UP - loops back seamlessly */
+@keyframes scroll-up-continuous {
     0% {
-        transform: translateY(-50%);
+        transform: translateY(-25%);
     }
     100% {
         transform: translateY(0);
@@ -650,26 +650,26 @@ body {
 
 /* LEFT gallery scrolls UP */
 .gallery-left {
-    animation: scroll-up 20s linear infinite;
+    animation: gallery-scroll-up 25s linear infinite;
 }
 
 /* RIGHT gallery scrolls DOWN */
 .gallery-right {
-    animation: scroll-down 20s linear infinite;
+    animation: gallery-scroll-down 25s linear infinite;
 }
 
-@keyframes scroll-up {
+@keyframes gallery-scroll-up {
     0% {
         transform: translateY(0);
     }
     100% {
-        transform: translateY(-50%);
+        transform: translateY(-25%);
     }
 }
 
-@keyframes scroll-down {
+@keyframes gallery-scroll-down {
     0% {
-        transform: translateY(-50%);
+        transform: translateY(-25%);
     }
     100% {
         transform: translateY(0);
