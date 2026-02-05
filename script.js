@@ -4,7 +4,7 @@
    ================================================================ */
 
 // Configuration Constants
-const PASSWORD = "xyzzz";
+const PASSWORD = "ilovebadmosi";
 let valentineData = null;
 let currentDayIndex = 0;
 
@@ -115,7 +115,7 @@ document.getElementById('passwordForm').addEventListener('submit', function (e) 
     errorDiv.innerHTML = '';
 
     // Validate credentials
-    if (name.toLowerCase() !== 'tanvi') {
+    if (name.toLowerCase() !== 'Potato') {
         // Access denied - show running man GIF
         errorDiv.innerHTML = `
             <div style="text-align: center;">
