@@ -7,7 +7,6 @@
 const PASSWORD = "xyzzz";
 let valentineData = null;
 let currentDayIndex = 0;
-const TENOR_API_ENDPOINT = "https://media.tenor.com/embed?postid=";
 
 /* ================================================================
    PAGE SWITCHING UTILITIES
@@ -123,12 +122,17 @@ document.getElementById('passwordForm').addEventListener('submit', function (e) 
                 <p style="font-size: 1.2rem; margin-bottom: 20px;">🏃 Access denied 😜</p>
                 <p>This is only for Tanvi!</p>
                 <div class="tenor-container" style="margin-top: 20px;">
-                    <iframe src="https://media.tenor.com/embed?postid=${valentineData.accessDenied.tenorId}" 
-                            frameBorder="0" allowFullScreen="true" width="100%" height="300" 
-                            style="border-radius: 15px;"></iframe>
+                    <div class="tenor-gif-embed" data-postid="${valentineData.accessDenied.tenorId}" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+                        <a href="https://tenor.com/view/chocolate-kiss-gif-26291282">Chocolate Kiss GIF</a>
+                        from <a href="https://tenor.com/search/chocolate+kiss-gifs">Chocolate Kiss GIFs</a>
+                    </div>
                 </div>
             </div>
         `;
+        // Reload Tenor script to render new embed
+        if (window.TenorEmbed) {
+            window.TenorEmbed.mount();
+        }
         return;
     }
 
@@ -222,65 +226,63 @@ function showCelebrationPage() {
     document.getElementById('celebrationDay').textContent = dayData.day;
     document.getElementById('celebrationMessage').textContent = dayData.message;
 
-    // Create Tenor embed
+    // Create Tenor embed using proper embed div format
     const gifContainer = document.getElementById('celebrationGifContainer');
     gifContainer.innerHTML = `
-        <iframe src="https://media.tenor.com/embed?postid=${dayData.tenorId}" 
-                frameBorder="0" allowFullScreen="true" width="100%" height="400" 
-                style="border-radius: 20px;"></iframe>
+        <div class="tenor-gif-embed" data-postid="${dayData.tenorId}" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+            <a href="https://tenor.com/view/gif-${dayData.tenorId}">GIF</a>
+            from <a href="https://tenor.com/search/love-stickers">Love Stickers</a>
+        </div>
     `;
-    console.log(`Loading Tenor GIF for ${dayData.day} with ID: ${dayData.tenorId}`);
-
-    // Always show next button (or gallery if it's the last day)
-    if (currentDayIndex === valentineData.valentineDays.length - 1) {
-        // Last day - show gallery button
-        document.querySelector('.celebration-buttons').innerHTML = `
-            <button id="galleryBtn" class="next-btn">View Gallery 📸</button>
-        `;
-        document.getElementById('galleryBtn').addEventListener('click', function () {
-            showPage('galleryPage');
-        });
-    } else {
-        // Show next button for other days
-        document.querySelector('.celebration-buttons').innerHTML = `
-            <button id="nextBtn" class="next-btn">Next 💝</button>
-        `;
-        document.getElementById('nextBtn').addEventListener('click', function () {
-            document.getElementById('yesBtn').click();
-        });
+    
+    // Reload Tenor script to render new embed
+    if (window.TenorEmbed) {
+        window.TenorEmbed.mount();
     }
     
-    // Always populate the side galleries
+    console.log(`Loading Tenor GIF for ${dayData.day} with ID: ${dayData.tenorId}`);
+
+    // Populate celebration gallery with images
     populateCelebrationGallery();
 }
 
-// Back button from celebration
+// Back button from celebration page
 document.getElementById('backBtn').addEventListener('click', function () {
-    yesPresses = 0;
-    currentDayIndex = 0;
     showPage('proposalPage');
 });
 
+// Next button - cycle to next day
+document.getElementById('nextBtn').addEventListener('click', function () {
+    currentDayIndex = (currentDayIndex + 1) % valentineData.valentineDays.length;
+    
+    // Trigger celebrations
+    createBalloons();
+    createConfetti();
+    createSparkles();
+    
+    showCelebrationPage();
+});
+
 /* ================================================================
-   ANIMATION FUNCTIONS
+   CELEBRATION EFFECTS
    ================================================================ */
 
 /**
- * Create floating balloons animation
+ * Create balloons that float upward
  */
 function createBalloons() {
     const container = document.getElementById('confettiContainer');
-    const balloonColors = ['#ff69b4', '#ff1493', '#ff69b4', '#ffb6c1'];
-    const balloonCount = 8;
+    const balloonCount = 15;
+    const colors = ['#ff69b4', '#e91e63', '#ffc0cb', '#ff1493', '#c71585'];
 
     for (let i = 0; i < balloonCount; i++) {
         const balloon = document.createElement('div');
         balloon.className = 'balloon';
         balloon.style.left = Math.random() * window.innerWidth + 'px';
-        balloon.style.bottom = '-60px';
-        balloon.style.backgroundColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
-        balloon.style.setProperty('--tx', (Math.random() - 0.5) * 200 + 'px');
-        balloon.style.setProperty('--rotate', Math.random() * 720 + 'deg');
+        balloon.style.top = window.innerHeight + 'px';
+        balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        balloon.style.setProperty('--tx', (Math.random() - 0.5) * 300 + 'px');
+        balloon.style.setProperty('--rotate', Math.random() * 360 + 'deg');
 
         container.appendChild(balloon);
 
@@ -290,14 +292,14 @@ function createBalloons() {
 }
 
 /**
- * Create confetti animation
+ * Create confetti explosion
  */
 function createConfetti() {
     const container = document.getElementById('confettiContainer');
-    const confettiPieces = ['❤️', '💖', '💝', '🎉', '✨', '💫'];
-    const pieceCount = 40;
+    const confettiCount = 50;
+    const confettiPieces = ['💖', '💕', '💗', '💓', '💝', '🌹', '💐', '🎀', '✨'];
 
-    for (let i = 0; i < pieceCount; i++) {
+    for (let i = 0; i < confettiCount; i++) {
         const confetti = document.createElement('div');
         confetti.className = 'confetti';
         confetti.textContent = confettiPieces[Math.floor(Math.random() * confettiPieces.length)];
@@ -353,7 +355,7 @@ function populateCelebrationGallery() {
     galleryLeft.innerHTML = '';
     galleryRight.innerHTML = '';
 
-    // Check for available images (supports both .webp and .jpg)
+    // Support img1-img12.webp
     const availableImages = [
         'assets/images/img1.webp',
         'assets/images/img2.webp',
@@ -364,7 +366,9 @@ function populateCelebrationGallery() {
         'assets/images/img7.webp',
         'assets/images/img8.webp',
         'assets/images/img9.webp',
-        'assets/images/img10.webp'
+        'assets/images/img10.webp',
+        'assets/images/img11.webp',
+        'assets/images/img12.webp'
     ];
 
     // Distribute images between left and right columns
@@ -417,7 +421,7 @@ function initializeGallery() {
     const galleryLeft = document.getElementById('galleryLeft');
     const galleryRight = document.getElementById('galleryRight');
 
-    // Check for available images (supports both .webp and .jpg)
+    // Support img1-img12.webp
     const availableImages = [
         'assets/images/img1.webp',
         'assets/images/img2.webp',
@@ -428,7 +432,9 @@ function initializeGallery() {
         'assets/images/img7.webp',
         'assets/images/img8.webp',
         'assets/images/img9.webp',
-        'assets/images/img10.webp'
+        'assets/images/img10.webp',
+        'assets/images/img11.webp',
+        'assets/images/img12.webp'
     ];
 
     // Distribute images between left and right columns

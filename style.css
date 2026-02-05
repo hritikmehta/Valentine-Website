@@ -461,7 +461,16 @@ body {
     flex-direction: column;
     gap: 15px;
     overflow: hidden;
-    animation: scroll-down-both 15s linear infinite;
+    animation: scroll-down-both 20s linear infinite;
+}
+
+@keyframes scroll-down-both {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(50%);
+    }
 }
 
 .celebration-gallery-side:hover .gallery-column {
