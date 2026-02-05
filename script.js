@@ -59,7 +59,7 @@ function loadFallbackData() {
             {
                 day: "Rose Day 🌹",
                 message: "A rose for the prettiest girl in my world",
-                tenorId: "12517852071596871944"
+                tenorId: "16578671122851061924"
             },
             {
                 day: "Propose Day 💍",
@@ -344,34 +344,34 @@ function createSparkles() {
 }
 
 /* ================================================================
-   PAGE 4: GALLERY LOGIC
+   PAGE 4: GALLERY LOGIC - INFINITE CAROUSEL WITH ALTERNATING DIRECTIONS
    ================================================================ */
 
 function populateCelebrationGallery() {
     const galleryLeft = document.getElementById('celebrationGalleryLeft');
     const galleryRight = document.getElementById('celebrationGalleryRight');
 
-    // Clear existing items
+    // Clear existing items to prevent pileup
     galleryLeft.innerHTML = '';
     galleryRight.innerHTML = '';
 
     // Support img1-img12.webp
     const availableImages = [
-        'assets/images/img1.webp',
-        'assets/images/img2.webp',
-        'assets/images/img3.webp',
-        'assets/images/img4.webp',
-        'assets/images/img5.webp',
-        'assets/images/img6.webp',
-        'assets/images/img7.webp',
-        'assets/images/img8.webp',
-        'assets/images/img9.webp',
-        'assets/images/img10.webp',
-        'assets/images/img11.webp',
-        'assets/images/img12.webp'
+        'assets/images/img1.webp',   // odd - goes to left
+        'assets/images/img2.webp',   // even - goes to right
+        'assets/images/img3.webp',   // odd - goes to left
+        'assets/images/img4.webp',   // even - goes to right
+        'assets/images/img5.webp',   // odd - goes to left
+        'assets/images/img6.webp',   // even - goes to right
+        'assets/images/img7.webp',   // odd - goes to left
+        'assets/images/img8.webp',   // even - goes to right
+        'assets/images/img9.webp',   // odd - goes to left
+        'assets/images/img10.webp',  // even - goes to right
+        'assets/images/img11.webp',  // odd - goes to left
+        'assets/images/img12.webp'   // even - goes to right
     ];
 
-    // Distribute images between left and right columns
+    // Distribute images: odd numbers (1,3,5,7,9,11) to left, even numbers (2,4,6,8,10,12) to right
     availableImages.forEach((imgPath, index) => {
         const imgContainer = document.createElement('div');
         imgContainer.className = 'gallery-item';
@@ -382,12 +382,13 @@ function populateCelebrationGallery() {
         img.loading = 'lazy';
         img.onerror = function() {
             console.warn(`Image failed to load: ${imgPath}`);
-            this.style.display = 'none';
+            this.parentElement.style.display = 'none';
         };
 
         imgContainer.appendChild(img);
 
-        // Alternate between left and right
+        // index 0,2,4,6,8,10 = img1,3,5,7,9,11 (odd) -> left
+        // index 1,3,5,7,9,11 = img2,4,6,8,10,12 (even) -> right
         if (index % 2 === 0) {
             galleryLeft.appendChild(imgContainer);
         } else {
@@ -395,25 +396,15 @@ function populateCelebrationGallery() {
         }
     });
 
-    // Duplicate items 3 times for smooth infinite scroll loop
-    const allItems = [...galleryLeft.querySelectorAll('.gallery-item')];
-    allItems.forEach(item => {
-        const clone1 = item.cloneNode(true);
-        const clone2 = item.cloneNode(true);
-        const clone3 = item.cloneNode(true);
-        galleryLeft.appendChild(clone1);
-        galleryLeft.appendChild(clone2);
-        galleryLeft.appendChild(clone3);
+    // Duplicate items for seamless infinite scroll (no pileup, just clones for loop)
+    const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
+    leftItems.forEach(item => {
+        galleryLeft.appendChild(item.cloneNode(true));
     });
 
-    const allItemsRight = [...galleryRight.querySelectorAll('.gallery-item')];
-    allItemsRight.forEach(item => {
-        const clone1 = item.cloneNode(true);
-        const clone2 = item.cloneNode(true);
-        const clone3 = item.cloneNode(true);
-        galleryRight.appendChild(clone1);
-        galleryRight.appendChild(clone2);
-        galleryRight.appendChild(clone3);
+    const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
+    rightItems.forEach(item => {
+        galleryRight.appendChild(item.cloneNode(true));
     });
 }
 
@@ -423,21 +414,21 @@ function initializeGallery() {
 
     // Support img1-img12.webp
     const availableImages = [
-        'assets/images/img1.webp',
-        'assets/images/img2.webp',
-        'assets/images/img3.webp',
-        'assets/images/img4.webp',
-        'assets/images/img5.webp',
-        'assets/images/img6.webp',
-        'assets/images/img7.webp',
-        'assets/images/img8.webp',
-        'assets/images/img9.webp',
-        'assets/images/img10.webp',
-        'assets/images/img11.webp',
-        'assets/images/img12.webp'
+        'assets/images/img1.webp',   // odd - goes to left
+        'assets/images/img2.webp',   // even - goes to right
+        'assets/images/img3.webp',   // odd - goes to left
+        'assets/images/img4.webp',   // even - goes to right
+        'assets/images/img5.webp',   // odd - goes to left
+        'assets/images/img6.webp',   // even - goes to right
+        'assets/images/img7.webp',   // odd - goes to left
+        'assets/images/img8.webp',   // even - goes to right
+        'assets/images/img9.webp',   // odd - goes to left
+        'assets/images/img10.webp',  // even - goes to right
+        'assets/images/img11.webp',  // odd - goes to left
+        'assets/images/img12.webp'   // even - goes to right
     ];
 
-    // Distribute images between left and right columns
+    // Distribute images: odd numbers to left, even numbers to right
     availableImages.forEach((imgPath, index) => {
         const imgContainer = document.createElement('div');
         imgContainer.className = 'gallery-item';
@@ -448,12 +439,12 @@ function initializeGallery() {
         img.loading = 'lazy';
         img.onerror = function() {
             console.warn(`Image failed to load: ${imgPath}`);
-            this.style.display = 'none';
+            this.parentElement.style.display = 'none';
         };
 
         imgContainer.appendChild(img);
 
-        // Alternate between left and right
+        // Odd numbered images (1,3,5,7,9,11) to left, even (2,4,6,8,10,12) to right
         if (index % 2 === 0) {
             galleryLeft.appendChild(imgContainer);
         } else {
@@ -461,25 +452,15 @@ function initializeGallery() {
         }
     });
 
-    // Duplicate items 3 times for smooth infinite scroll loop
-    const allItems = [...galleryLeft.querySelectorAll('.gallery-item')];
-    allItems.forEach(item => {
-        const clone1 = item.cloneNode(true);
-        const clone2 = item.cloneNode(true);
-        const clone3 = item.cloneNode(true);
-        galleryLeft.appendChild(clone1);
-        galleryLeft.appendChild(clone2);
-        galleryLeft.appendChild(clone3);
+    // Duplicate items for seamless infinite scroll
+    const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
+    leftItems.forEach(item => {
+        galleryLeft.appendChild(item.cloneNode(true));
     });
 
-    const allItemsRight = [...galleryRight.querySelectorAll('.gallery-item')];
-    allItemsRight.forEach(item => {
-        const clone1 = item.cloneNode(true);
-        const clone2 = item.cloneNode(true);
-        const clone3 = item.cloneNode(true);
-        galleryRight.appendChild(clone1);
-        galleryRight.appendChild(clone2);
-        galleryRight.appendChild(clone3);
+    const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
+    rightItems.forEach(item => {
+        galleryRight.appendChild(item.cloneNode(true));
     });
 }
 

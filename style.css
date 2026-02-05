@@ -383,7 +383,7 @@ body {
 }
 
 /* ================================================================
-   PAGE 3: CELEBRATION PAGE
+   PAGE 3: CELEBRATION PAGE - INFINITE CAROUSEL
    ================================================================ */
 
 .celebration-container {
@@ -455,21 +455,43 @@ body {
     padding: 0;
 }
 
-.celebration-gallery-side .gallery-column {
+/* LEFT COLUMN - Scrolls DOWN (top to bottom) */
+.celebration-gallery-left .gallery-column {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 15px;
     overflow: hidden;
-    animation: scroll-down-both 20s linear infinite;
+    animation: scroll-down-infinite 25s linear infinite;
 }
 
-@keyframes scroll-down-both {
+/* RIGHT COLUMN - Scrolls UP (bottom to top) */
+.celebration-gallery-right .gallery-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow: hidden;
+    animation: scroll-up-infinite 25s linear infinite;
+}
+
+/* Infinite scroll DOWN - for LEFT column */
+@keyframes scroll-down-infinite {
     0% {
         transform: translateY(0);
     }
     100% {
         transform: translateY(50%);
+    }
+}
+
+/* Infinite scroll UP - for RIGHT column */
+@keyframes scroll-up-infinite {
+    0% {
+        transform: translateY(-50%);
+    }
+    100% {
+        transform: translateY(0);
     }
 }
 
@@ -626,12 +648,14 @@ body {
     transform: scale(1.02);
 }
 
+/* LEFT gallery scrolls UP */
 .gallery-left {
     animation: scroll-up 20s linear infinite;
 }
 
+/* RIGHT gallery scrolls DOWN */
 .gallery-right {
-    animation: scroll-up 20s linear infinite;
+    animation: scroll-down 20s linear infinite;
 }
 
 @keyframes scroll-up {
@@ -640,6 +664,15 @@ body {
     }
     100% {
         transform: translateY(-50%);
+    }
+}
+
+@keyframes scroll-down {
+    0% {
+        transform: translateY(-50%);
+    }
+    100% {
+        transform: translateY(0);
     }
 }
 
@@ -689,19 +722,6 @@ body {
         height: auto;
         max-height: 80vh;
     }
-
-    /* Infinite Loop Logic */
-    @keyframes scroll-infinite {
-        0% { transform: translateY(0); }
-        100% { transform: translateY(-50%); } /* Halfway because we double the content */
-    }
-
-    .gallery-column {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    animation: scroll-infinite 20s linear infinite !important;
-}
 
     .back-btn {
         top: 15px;
