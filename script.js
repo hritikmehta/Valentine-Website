@@ -208,10 +208,14 @@ document.addEventListener('mouseleave', function () {
 
 // NO button runs far away when hovered
 document.getElementById('noBtn').addEventListener('mouseenter', function () {
-    const randomX = (Math.random() - 0.5) * 500;
-    const randomY = (Math.random() - 0.5) * 500;
-    this.style.position = 'fixed';
+    const randomX = (Math.random() - 0.5) * 300;
+    const randomY = (Math.random() - 0.5) * 300;
     this.style.transform = `translate(${randomX}px, ${randomY}px)`;
+});
+
+// Reset NO button position on mouse leave
+document.getElementById('noBtn').addEventListener('mouseleave', function () {
+    this.style.transform = 'translate(0, 0)';
 });
 
 /* ================================================================

@@ -364,7 +364,7 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: var(--transition);
-    position: fixed;
+    position: relative;
     z-index: 20;
     text-transform: uppercase;
 }
@@ -372,7 +372,6 @@ body {
 #noBtn:hover {
     background: var(--primary-red);
     color: var(--white);
-    transform: translate(100px, -100px);
 }
 
 .hint-text {
