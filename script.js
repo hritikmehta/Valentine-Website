@@ -420,56 +420,42 @@ function initializeGallery() {
         'assets/images/img12.webp'
     ];
 
-    // Extract GIF URLs from Tenor IDs
-    const gifItems = [];
-    if (valentineData && valentineData.valentineDays) {
-        valentineData.valentineDays.forEach(day => {
-            gifItems.push({
-                tenorId: day.tenorId,
-                name: day.day,
-                aspectRatio: day.aspectRatio || 1
-            });
-        });
-    }
-
-    // Add additional GIFs from metadata
-    if (valentineData && valentineData.passwordPage) {
-        gifItems.unshift({
-            tenorId: valentineData.passwordPage.tenorId,
-            name: valentineData.passwordPage.name,
-            aspectRatio: valentineData.passwordPage.aspectRatio || 1
-        });
-    }
-
-    // Store states for toggling
+    // Store state
     window.galleryState = {
-        currentSet: 0,
-        isShowingImages: true,
         allImages: allImages,
-        gifItems: gifItems,
-        imageSet1: allImages.slice(0, 6), // First 6 images
-        imageSet2: allImages.slice(6, 12), // Next 6 images
         galleryLeft: galleryLeft,
         galleryRight: galleryRight
     };
 
-    // Load initial images
-    loadGallerySet(allImages.slice(0, 6));
+    // Load initial random images
+    loadRandomGallery();
 
     // Toggle button functionality
     if (toggleBtn) {
         toggleBtn.addEventListener('click', function () {
-            toggleGalleryContent();
+            loadRandomGallery();
         });
+        toggleBtn.textContent = 'Load More 💕';
     }
 }
 
-function loadGallerySet(itemPaths) {
-    const { galleryLeft, galleryRight } = window.galleryState;
+function getRandomImages(allImages, count) {
+    // Shuffle array
+    const shuffled = [...allImages].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count);
+}
+
+function loadRandomGallery() {
+    const { allImages, galleryLeft, galleryRight } = window.galleryState;
+
+    // Get 4 random images (2 for left, 2 for right)
+    const randomImages = getRandomImages(allImages, 4);
+    const leftImages = randomImages.slice(0, 2);
+    const rightImages = randomImages.slice(2, 4);
 
     // Mark existing items for fade out
-    const existingItems = galleryLeft.querySelectorAll('.gallery-item');
-    existingItems.forEach(item => {
+    const existingLeftItems = galleryLeft.querySelectorAll('.gallery-item');
+    existingLeftItems.forEach(item => {
         item.classList.add('transitioning');
     });
 
@@ -483,110 +469,44 @@ function loadGallerySet(itemPaths) {
         galleryLeft.innerHTML = '';
         galleryRight.innerHTML = '';
 
-        // Load 6 items - 3 on each side
-        itemPaths.forEach((itemPath, index) => {
+        // Load left side images
+        leftImages.forEach((imgPath) => {
             const itemContainer = document.createElement('div');
             itemContainer.className = 'gallery-item entering';
 
             const img = document.createElement('img');
-            img.src = itemPath;
+            img.src = imgPath;
             img.alt = '';
 
             img.onerror = function () {
-                console.warn(`Image failed to load: ${itemPath}`);
+                console.warn(`Image failed to load: ${imgPath}`);
                 this.parentElement.style.display = 'none';
             };
 
             itemContainer.appendChild(img);
-
-            // First 3 items to left, next 3 to right
-            if (index < 3) {
-                galleryLeft.appendChild(itemContainer);
-            } else {
-                galleryRight.appendChild(itemContainer);
-            }
+            galleryLeft.appendChild(itemContainer);
         });
 
-        console.log(`Gallery loaded: 3 items left, 3 items right`);
-    }, 800);
-}
-
-function loadGalleryGifs(gifItems) {
-    const { galleryLeft, galleryRight } = window.galleryState;
-
-    // Mark existing items for fade out
-    const existingItems = galleryLeft.querySelectorAll('.gallery-item');
-    existingItems.forEach(item => {
-        item.classList.add('transitioning');
-    });
-
-    const existingRightItems = galleryRight.querySelectorAll('.gallery-item');
-    existingRightItems.forEach(item => {
-        item.classList.add('transitioning');
-    });
-
-    setTimeout(() => {
-        galleryLeft.innerHTML = '';
-        galleryRight.innerHTML = '';
-
-        // Take up to 6 GIFs and display them
-        const displayGifs = gifItems.slice(0, 6);
-        displayGifs.forEach((gifItem, index) => {
+        // Load right side images
+        rightImages.forEach((imgPath) => {
             const itemContainer = document.createElement('div');
             itemContainer.className = 'gallery-item entering';
 
-            // Create a Tenor embed container
-            const gifEmbed = document.createElement('div');
-            gifEmbed.className = 'tenor-gif-embed';
-            gifEmbed.setAttribute('data-postid', gifItem.tenorId);
-            gifEmbed.setAttribute('data-share-method', 'host');
-            gifEmbed.setAttribute('data-aspect-ratio', gifItem.aspectRatio);
-            gifEmbed.setAttribute('data-width', '100%');
-            gifEmbed.style.width = '100%';
-            gifEmbed.style.height = '100%';
+            const img = document.createElement('img');
+            img.src = imgPath;
+            img.alt = '';
 
-            itemContainer.appendChild(gifEmbed);
+            img.onerror = function () {
+                console.warn(`Image failed to load: ${imgPath}`);
+                this.parentElement.style.display = 'none';
+            };
 
-            // Add to left or right
-            if (index < 3) {
-                galleryLeft.appendChild(itemContainer);
-            } else {
-                galleryRight.appendChild(itemContainer);
-            }
+            itemContainer.appendChild(img);
+            galleryRight.appendChild(itemContainer);
         });
 
-        // Reload Tenor embed script
-        const script = document.createElement('script');
-        script.src = 'https://tenor.com/embed.js';
-        script.async = true;
-        document.body.appendChild(script);
-
-        console.log(`GIFs loaded: ${displayGifs.length} items`);
+        console.log(`Gallery loaded: 2 items left, 2 items right`);
     }, 800);
-}
-
-function toggleGalleryContent() {
-    const state = window.galleryState;
-
-    if (state.isShowingImages) {
-        // Switch to GIFs
-        if (state.gifItems.length > 0) {
-            loadGalleryGifs(state.gifItems);
-            state.isShowingImages = false;
-            document.getElementById('toggleGalleryBtn').textContent = 'Show Images 🖼️';
-        }
-    } else {
-        // Switch to images
-        if (state.currentSet === 0) {
-            loadGallerySet(state.imageSet1);
-            state.currentSet = 1;
-        } else {
-            loadGallerySet(state.imageSet2);
-            state.currentSet = 0;
-        }
-        state.isShowingImages = true;
-        document.getElementById('toggleGalleryBtn').textContent = 'Next Set 💕';
-    }
 }
 
 // Back button from gallery
