@@ -571,33 +571,35 @@ body {
 
 .gallery-wrapper {
     display: flex;
-    gap: 30px;
+    gap: 60px;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     margin: 40px 0;
 }
 
 .gallery-side {
     display: grid;
-    grid-template-columns: repeat(3, 200px);
-    gap: 15px;
+    grid-template-columns: repeat(3, 350px);
+    gap: 20px;
     perspective: 1000px;
+    justify-items: center;
+    align-items: center;
 }
 
 .gallery-left {
-    justify-content: flex-end;
+    justify-content: center;
 }
 
 .gallery-right {
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .gallery-item {
-    width: 200px;
-    height: 200px;
-    border-radius: 15px;
+    width: 350px;
+    height: 350px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(233, 30, 99, 0.2);
+    box-shadow: 0 12px 30px rgba(233, 30, 99, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -715,16 +717,16 @@ body {
 
     .gallery-wrapper {
         flex-direction: column;
-        gap: 20px;
+        gap: 40px;
     }
 
     .gallery-side {
-        grid-template-columns: repeat(2, 150px);
+        grid-template-columns: repeat(3, 250px);
     }
 
     .gallery-item {
-        width: 150px;
-        height: 150px;
+        width: 250px;
+        height: 250px;
     }
 
     .back-btn {
@@ -779,6 +781,25 @@ body {
 
     .floating-heart {
         opacity: 0.2;
+    }
+
+    .gallery-wrapper {
+        gap: 20px;
+    }
+
+    .gallery-side {
+        grid-template-columns: repeat(3, 150px);
+    }
+
+    .gallery-item {
+        width: 150px;
+        height: 150px;
+        border-radius: 10px;
+    }
+
+    .toggle-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
     }
 }
 
