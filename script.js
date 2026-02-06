@@ -356,23 +356,23 @@ function populateCelebrationGallery() {
     galleryLeft.innerHTML = '';
     galleryRight.innerHTML = '';
 
-    // Support img1-img12.webp
+    // All 12 images
     const availableImages = [
-        'assets/images/img1.webp',   // odd - goes to left
-        'assets/images/img2.webp',   // even - goes to right
-        'assets/images/img3.webp',   // odd - goes to left
-        'assets/images/img4.webp',   // even - goes to right
-        'assets/images/img5.webp',   // odd - goes to left
-        'assets/images/img6.webp',   // even - goes to right
-        'assets/images/img7.webp',   // odd - goes to left
-        'assets/images/img8.webp',   // even - goes to right
-        'assets/images/img9.webp',   // odd - goes to left
-        'assets/images/img10.webp',  // even - goes to right
-        'assets/images/img11.webp',  // odd - goes to left
-        'assets/images/img12.webp'   // even - goes to right
+        'assets/images/img1.webp',
+        'assets/images/img2.webp',
+        'assets/images/img3.webp',
+        'assets/images/img4.webp',
+        'assets/images/img5.webp',
+        'assets/images/img6.webp',
+        'assets/images/img7.webp',
+        'assets/images/img8.webp',
+        'assets/images/img9.webp',
+        'assets/images/img10.webp',
+        'assets/images/img11.webp',
+        'assets/images/img12.webp'
     ];
 
-    // Distribute images: odd numbers (1,3,5,7,9,11) to left, even numbers (2,4,6,8,10,12) to right
+    // Distribute images: odd indices to left, even indices to right
     availableImages.forEach((imgPath, index) => {
         const imgContainer = document.createElement('div');
         imgContainer.className = 'gallery-item';
@@ -388,8 +388,7 @@ function populateCelebrationGallery() {
 
         imgContainer.appendChild(img);
 
-        // index 0,2,4,6,8,10 = img1,3,5,7,9,11 (odd) -> left
-        // index 1,3,5,7,9,11 = img2,4,6,8,10,12 (even) -> right
+        // Odd indices to left, even to right
         if (index % 2 === 0) {
             galleryLeft.appendChild(imgContainer);
         } else {
@@ -397,79 +396,196 @@ function populateCelebrationGallery() {
         }
     });
 
-    // Triple duplicate for truly smooth infinite scroll
-    const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
-    for (let i = 0; i < 3; i++) {
-        leftItems.forEach(item => {
-            galleryLeft.appendChild(item.cloneNode(true));
-        });
-    }
-
-    const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
-    for (let i = 0; i < 3; i++) {
-        rightItems.forEach(item => {
-            galleryRight.appendChild(item.cloneNode(true));
-        });
-    }
+    console.log(`Celebration gallery loaded: ${galleryLeft.children.length} images left, ${galleryRight.children.length} images right`);
 }
 
 function initializeGallery() {
     const galleryLeft = document.getElementById('galleryLeft');
     const galleryRight = document.getElementById('galleryRight');
+    const toggleBtn = document.getElementById('toggleGalleryBtn');
 
-    // Support img1-img12.webp
-    const availableImages = [
-        'assets/images/img1.webp',   // odd - goes to left
-        'assets/images/img2.webp',   // even - goes to right
-        'assets/images/img3.webp',   // odd - goes to left
-        'assets/images/img4.webp',   // even - goes to right
-        'assets/images/img5.webp',   // odd - goes to left
-        'assets/images/img6.webp',   // even - goes to right
-        'assets/images/img7.webp',   // odd - goes to left
-        'assets/images/img8.webp',   // even - goes to right
-        'assets/images/img9.webp',   // odd - goes to left
-        'assets/images/img10.webp',  // even - goes to right
-        'assets/images/img11.webp',  // odd - goes to left
-        'assets/images/img12.webp'   // even - goes to right
+    // All 12 images
+    const allImages = [
+        'assets/images/img1.webp',
+        'assets/images/img2.webp',
+        'assets/images/img3.webp',
+        'assets/images/img4.webp',
+        'assets/images/img5.webp',
+        'assets/images/img6.webp',
+        'assets/images/img7.webp',
+        'assets/images/img8.webp',
+        'assets/images/img9.webp',
+        'assets/images/img10.webp',
+        'assets/images/img11.webp',
+        'assets/images/img12.webp'
     ];
 
-    // Distribute images: odd numbers to left, even numbers to right
-    availableImages.forEach((imgPath, index) => {
-        const imgContainer = document.createElement('div');
-        imgContainer.className = 'gallery-item';
-
-        const img = document.createElement('img');
-        img.src = imgPath;
-        img.alt = '';
-
-        img.onerror = function() {
-            console.warn(`Image failed to load: ${imgPath}`);
-            this.parentElement.style.display = 'none';
-        };
-
-        imgContainer.appendChild(img);
-
-        // Odd numbered images (1,3,5,7,9,11) to left, even (2,4,6,8,10,12) to right
-        if (index % 2 === 0) {
-            galleryLeft.appendChild(imgContainer);
-        } else {
-            galleryRight.appendChild(imgContainer);
-        }
-    });
-
-    // Triple duplicate for truly smooth infinite scroll
-    const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
-    for (let i = 0; i < 3; i++) {
-        leftItems.forEach(item => {
-            galleryLeft.appendChild(item.cloneNode(true));
+    // Extract GIF URLs from Tenor IDs
+    const gifItems = [];
+    if (valentineData && valentineData.valentineDays) {
+        valentineData.valentineDays.forEach(day => {
+            gifItems.push({
+                tenorId: day.tenorId,
+                name: day.day,
+                aspectRatio: day.aspectRatio || 1
+            });
         });
     }
 
-    const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
-    for (let i = 0; i < 3; i++) {
-        rightItems.forEach(item => {
-            galleryRight.appendChild(item.cloneNode(true));
+    // Add additional GIFs from metadata
+    if (valentineData && valentineData.passwordPage) {
+        gifItems.unshift({
+            tenorId: valentineData.passwordPage.tenorId,
+            name: valentineData.passwordPage.name,
+            aspectRatio: valentineData.passwordPage.aspectRatio || 1
         });
+    }
+
+    // Store states for toggling
+    window.galleryState = {
+        currentSet: 0,
+        isShowingImages: true,
+        allImages: allImages,
+        gifItems: gifItems,
+        imageSet1: allImages.slice(0, 6), // First 6 images
+        imageSet2: allImages.slice(6, 12), // Next 6 images
+        galleryLeft: galleryLeft,
+        galleryRight: galleryRight
+    };
+
+    // Load initial images
+    loadGallerySet(allImages.slice(0, 6));
+
+    // Toggle button functionality
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function () {
+            toggleGalleryContent();
+        });
+    }
+}
+
+function loadGallerySet(itemPaths) {
+    const { galleryLeft, galleryRight } = window.galleryState;
+
+    // Mark existing items for fade out
+    const existingItems = galleryLeft.querySelectorAll('.gallery-item');
+    existingItems.forEach(item => {
+        item.classList.add('transitioning');
+    });
+
+    const existingRightItems = galleryRight.querySelectorAll('.gallery-item');
+    existingRightItems.forEach(item => {
+        item.classList.add('transitioning');
+    });
+
+    // Clear after transition animation
+    setTimeout(() => {
+        galleryLeft.innerHTML = '';
+        galleryRight.innerHTML = '';
+
+        // Load 6 items - 3 on each side
+        itemPaths.forEach((itemPath, index) => {
+            const itemContainer = document.createElement('div');
+            itemContainer.className = 'gallery-item entering';
+
+            const img = document.createElement('img');
+            img.src = itemPath;
+            img.alt = '';
+
+            img.onerror = function () {
+                console.warn(`Image failed to load: ${itemPath}`);
+                this.parentElement.style.display = 'none';
+            };
+
+            itemContainer.appendChild(img);
+
+            // First 3 items to left, next 3 to right
+            if (index < 3) {
+                galleryLeft.appendChild(itemContainer);
+            } else {
+                galleryRight.appendChild(itemContainer);
+            }
+        });
+
+        console.log(`Gallery loaded: 3 items left, 3 items right`);
+    }, 800);
+}
+
+function loadGalleryGifs(gifItems) {
+    const { galleryLeft, galleryRight } = window.galleryState;
+
+    // Mark existing items for fade out
+    const existingItems = galleryLeft.querySelectorAll('.gallery-item');
+    existingItems.forEach(item => {
+        item.classList.add('transitioning');
+    });
+
+    const existingRightItems = galleryRight.querySelectorAll('.gallery-item');
+    existingRightItems.forEach(item => {
+        item.classList.add('transitioning');
+    });
+
+    setTimeout(() => {
+        galleryLeft.innerHTML = '';
+        galleryRight.innerHTML = '';
+
+        // Take up to 6 GIFs and display them
+        const displayGifs = gifItems.slice(0, 6);
+        displayGifs.forEach((gifItem, index) => {
+            const itemContainer = document.createElement('div');
+            itemContainer.className = 'gallery-item entering';
+
+            // Create a Tenor embed container
+            const gifEmbed = document.createElement('div');
+            gifEmbed.className = 'tenor-gif-embed';
+            gifEmbed.setAttribute('data-postid', gifItem.tenorId);
+            gifEmbed.setAttribute('data-share-method', 'host');
+            gifEmbed.setAttribute('data-aspect-ratio', gifItem.aspectRatio);
+            gifEmbed.setAttribute('data-width', '100%');
+            gifEmbed.style.width = '100%';
+            gifEmbed.style.height = '100%';
+
+            itemContainer.appendChild(gifEmbed);
+
+            // Add to left or right
+            if (index < 3) {
+                galleryLeft.appendChild(itemContainer);
+            } else {
+                galleryRight.appendChild(itemContainer);
+            }
+        });
+
+        // Reload Tenor embed script
+        const script = document.createElement('script');
+        script.src = 'https://tenor.com/embed.js';
+        script.async = true;
+        document.body.appendChild(script);
+
+        console.log(`GIFs loaded: ${displayGifs.length} items`);
+    }, 800);
+}
+
+function toggleGalleryContent() {
+    const state = window.galleryState;
+
+    if (state.isShowingImages) {
+        // Switch to GIFs
+        if (state.gifItems.length > 0) {
+            loadGalleryGifs(state.gifItems);
+            state.isShowingImages = false;
+            document.getElementById('toggleGalleryBtn').textContent = 'Show Images 🖼️';
+        }
+    } else {
+        // Switch to images
+        if (state.currentSet === 0) {
+            loadGallerySet(state.imageSet1);
+            state.currentSet = 1;
+        } else {
+            loadGallerySet(state.imageSet2);
+            state.currentSet = 0;
+        }
+        state.isShowingImages = true;
+        document.getElementById('toggleGalleryBtn').textContent = 'Next Set 💕';
     }
 }
 

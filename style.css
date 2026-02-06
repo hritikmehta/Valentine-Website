@@ -455,44 +455,15 @@ body {
     padding: 0;
 }
 
-/* LEFT COLUMN - Scrolls DOWN continuously */
-.celebration-gallery-left .gallery-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    overflow: hidden;
-    animation: scroll-down-continuous 30s linear infinite;
-}
-
-/* RIGHT COLUMN - Scrolls UP continuously */
+/* Both columns scroll bottom to top */
+.celebration-gallery-left .gallery-column,
 .celebration-gallery-right .gallery-column {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 15px;
     overflow: hidden;
-    animation: scroll-down-continuous 30s linear infinite;
-}
-
-/* Continuous scroll DOWN - loops back seamlessly because content is 4x duplicated */
-@keyframes scroll-down-continuous {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(-50%);
-    }
-}
-
-/* Continuous scroll UP - loops back seamlessly */
-@keyframes scroll-up-continuous {
-    0% {
-        transform: translateY(-50%);
-    }
-    100% {
-        transform: translateY(0);
-    }
+    animation: scroll-bottom-to-top 40s linear infinite;
 }
 
 .celebration-gallery-side:hover .gallery-column {
@@ -598,40 +569,49 @@ body {
     padding: 40px 20px;
 }
 
-.gallery-title {
-    text-align: center;
-    font-size: 2.5rem;
-    color: var(--primary-red);
-    margin-bottom: 40px;
-    font-weight: 700;
-}
-
 .gallery-wrapper {
     display: flex;
-    gap: 20px;
+    gap: 30px;
     justify-content: center;
-    height: 60vh;
-    overflow: hidden;
-    border-radius: 20px;
-    background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(233, 30, 99, 0.1));
-    padding: 20px;
+    align-items: flex-start;
+    margin: 40px 0;
 }
 
-.gallery-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.gallery-side {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
     gap: 15px;
-    overflow: hidden;
-    height: 100%;
+    perspective: 1000px;
+}
+
+.gallery-left {
+    justify-content: flex-end;
+}
+
+.gallery-right {
+    justify-content: flex-start;
 }
 
 .gallery-item {
-    flex-shrink: 0;
+    width: 200px;
+    height: 200px;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(233, 30, 99, 0.2);
-    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    cursor: pointer;
+    animation: blur-fade-in 1.5s ease-out;
+}
+
+.gallery-item.transitioning {
+    animation: blur-fade-out 0.8s ease-in forwards;
+}
+
+.gallery-item.entering {
+    animation: blur-fade-in 1.5s ease-out forwards;
 }
 
 .gallery-item img {
@@ -639,46 +619,62 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
-    loading: lazy;
-    font-size: 0;
-    color: transparent;
 }
 
 .gallery-item:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
-/* LEFT gallery scrolls UP */
-.gallery-left {
-    animation: gallery-scroll-up 25s linear infinite;
-}
-
-/* RIGHT gallery scrolls DOWN */
-.gallery-right {
-    animation: gallery-scroll-down 25s linear infinite;
-}
-
-@keyframes gallery-scroll-up {
+/* Blur fade out animation */
+@keyframes blur-fade-out {
     0% {
-        transform: translateY(0);
+        opacity: 1;
+        filter: blur(0px);
     }
     100% {
-        transform: translateY(-25%);
+        opacity: 0;
+        filter: blur(10px);
     }
 }
 
-@keyframes gallery-scroll-down {
+/* Blur fade in animation */
+@keyframes blur-fade-in {
     0% {
-        transform: translateY(-25%);
+        opacity: 0;
+        filter: blur(10px);
     }
     100% {
-        transform: translateY(0);
+        opacity: 1;
+        filter: blur(0px);
     }
 }
 
-/* Pause animation on hover */
-.gallery-column:hover {
-    animation-play-state: paused;
+.gallery-controls {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.toggle-btn {
+    background: linear-gradient(135deg, #ff69b4, #e91e63);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+}
+
+.toggle-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+}
+
+.toggle-btn:active {
+    transform: scale(0.98);
 }
 
 /* ================================================================
@@ -719,8 +715,16 @@ body {
 
     .gallery-wrapper {
         flex-direction: column;
-        height: auto;
-        max-height: 80vh;
+        gap: 20px;
+    }
+
+    .gallery-side {
+        grid-template-columns: repeat(2, 150px);
+    }
+
+    .gallery-item {
+        width: 150px;
+        height: 150px;
     }
 
     .back-btn {
