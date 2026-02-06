@@ -126,15 +126,8 @@ document.getElementById('passwordForm').addEventListener('submit', function (e) 
                 </div>
             </div>
         `;
-        // Force reload Tenor embeds
-    //     setTimeout(() => {
-    //         const script = document.createElement('script');
-    //         script.src = 'https://tenor.com/embed.js';
-    //         script.async = true;
-    //         document.body.appendChild(script);
-    //     }, 100);
-    //     return;
-    // }
+        return;
+    }
 
     if (password !== PASSWORD) {
         errorDiv.innerHTML = '❌ Wrong password! Try again.';
