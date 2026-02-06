@@ -356,12 +356,12 @@ function populateCelebrationGallery() {
     const galleryLeft = document.getElementById('celebrationGalleryLeft');
     const galleryRight = document.getElementById('celebrationGalleryRight');
 
-    // Clear existing items to prevent pileup
+    // Clear existing items
     galleryLeft.innerHTML = '';
     galleryRight.innerHTML = '';
 
     // All 12 images
-    const availableImages = [
+    const allImages = [
         'assets/images/img1.webp',
         'assets/images/img2.webp',
         'assets/images/img3.webp',
@@ -376,8 +376,13 @@ function populateCelebrationGallery() {
         'assets/images/img12.webp'
     ];
 
-    // Distribute images: odd indices to left, even indices to right
-    availableImages.forEach((imgPath, index) => {
+    // Get 4 random images (2 for left, 2 for right)
+    const randomImages = getRandomImages(allImages, 4);
+    const leftImages = randomImages.slice(0, 2);
+    const rightImages = randomImages.slice(2, 4);
+
+    // Load left side images
+    leftImages.forEach((imgPath) => {
         const imgContainer = document.createElement('div');
         imgContainer.className = 'gallery-item';
 
@@ -391,16 +396,28 @@ function populateCelebrationGallery() {
         };
 
         imgContainer.appendChild(img);
-
-        // Odd indices to left, even to right
-        if (index % 2 === 0) {
-            galleryLeft.appendChild(imgContainer);
-        } else {
-            galleryRight.appendChild(imgContainer);
-        }
+        galleryLeft.appendChild(imgContainer);
     });
 
-    console.log(`Celebration gallery loaded: ${galleryLeft.children.length} images left, ${galleryRight.children.length} images right`);
+    // Load right side images
+    rightImages.forEach((imgPath) => {
+        const imgContainer = document.createElement('div');
+        imgContainer.className = 'gallery-item';
+
+        const img = document.createElement('img');
+        img.src = imgPath;
+        img.alt = '';
+
+        img.onerror = function() {
+            console.warn(`Image failed to load: ${imgPath}`);
+            this.parentElement.style.display = 'none';
+        };
+
+        imgContainer.appendChild(img);
+        galleryRight.appendChild(imgContainer);
+    });
+
+    console.log(`Celebration gallery loaded: 2 images left, 2 images right`);
 }
 
 function initializeGallery() {
