@@ -53,8 +53,7 @@ function loadFallbackData() {
             tenorId: "16918696612896855928"
         },
         accessDenied: {
-            tenorId: "16578671122851061924"
-               // "26291282"
+            tenorId: "26291282"
         },
         valentineDays: [
             {
@@ -128,14 +127,14 @@ document.getElementById('passwordForm').addEventListener('submit', function (e) 
             </div>
         `;
         // Force reload Tenor embeds
-        setTimeout(() => {
-            const script = document.createElement('script');
-            script.src = 'https://tenor.com/embed.js';
-            script.async = true;
-            document.body.appendChild(script);
-        }, 100);
-        return;
-    }
+    //     setTimeout(() => {
+    //         const script = document.createElement('script');
+    //         script.src = 'https://tenor.com/embed.js';
+    //         script.async = true;
+    //         document.body.appendChild(script);
+    //     }, 100);
+    //     return;
+    // }
 
     if (password !== PASSWORD) {
         errorDiv.innerHTML = '❌ Wrong password! Try again.';
@@ -232,14 +231,12 @@ function showCelebrationPage() {
     gifContainer.innerHTML = `<div class="tenor-gif-embed" data-postid="${dayData.tenorId}" data-share-method="host" data-aspect-ratio="1" data-width="100%"></div>`;
     
     // Force reload Tenor embeds after a brief delay
-    // setTimeout(() => {
-        console.log("Reloading tenor script")
+    setTimeout(() => {
         const script = document.createElement('script');
         script.src = 'https://tenor.com/embed.js';
         script.async = true;
         document.body.appendChild(script);
-        console.log("Tenor script reloaded")
-    // }, 100);
+    }, 100);
     
     console.log(`Loading Tenor GIF for ${dayData.day} with ID: ${dayData.tenorId}`);
 
@@ -345,51 +342,50 @@ function createSparkles() {
 }
 
 /* ================================================================
-   PAGE 4: GALLERY LOGIC - TRULY INFINITE CAROUSEL
+   SIMPLIFIED GALLERY - BOTTOM TO TOP SCROLL ON BOTH SIDES
    ================================================================ */
 
 function populateCelebrationGallery() {
     const galleryLeft = document.getElementById('celebrationGalleryLeft');
     const galleryRight = document.getElementById('celebrationGalleryRight');
 
-    // Clear existing items to prevent pileup
+    // Clear existing items
     galleryLeft.innerHTML = '';
     galleryRight.innerHTML = '';
 
-    // Support img1-img12.webp
+    // All 12 images
     const availableImages = [
-        'assets/images/img1.webp',   // odd - goes to left
-        'assets/images/img2.webp',   // even - goes to right
-        'assets/images/img3.webp',   // odd - goes to left
-        'assets/images/img4.webp',   // even - goes to right
-        'assets/images/img5.webp',   // odd - goes to left
-        'assets/images/img6.webp',   // even - goes to right
-        'assets/images/img7.webp',   // odd - goes to left
-        'assets/images/img8.webp',   // even - goes to right
-        'assets/images/img9.webp',   // odd - goes to left
-        'assets/images/img10.webp',  // even - goes to right
-        'assets/images/img11.webp',  // odd - goes to left
-        'assets/images/img12.webp'   // even - goes to right
+        'assets/images/img1.webp',
+        'assets/images/img2.webp',
+        'assets/images/img3.webp',
+        'assets/images/img4.webp',
+        'assets/images/img5.webp',
+        'assets/images/img6.webp',
+        'assets/images/img7.webp',
+        'assets/images/img8.webp',
+        'assets/images/img9.webp',
+        'assets/images/img10.webp',
+        'assets/images/img11.webp',
+        'assets/images/img12.webp'
     ];
 
-    // Distribute images: odd numbers (1,3,5,7,9,11) to left, even numbers (2,4,6,8,10,12) to right
+    // Split: odd images to left, even images to right
     availableImages.forEach((imgPath, index) => {
         const imgContainer = document.createElement('div');
         imgContainer.className = 'gallery-item';
 
         const img = document.createElement('img');
         img.src = imgPath;
-        img.alt = '';
-
+        img.alt = `Photo ${index + 1}`;
+        img.loading = 'lazy';
         img.onerror = function() {
             console.warn(`Image failed to load: ${imgPath}`);
-            this.parentElement.style.display = 'none';
         };
 
         imgContainer.appendChild(img);
 
-        // index 0,2,4,6,8,10 = img1,3,5,7,9,11 (odd) -> left
-        // index 1,3,5,7,9,11 = img2,4,6,8,10,12 (even) -> right
+        // Odd index (0,2,4,6,8,10) = img 1,3,5,7,9,11 -> LEFT
+        // Even index (1,3,5,7,9,11) = img 2,4,6,8,10,12 -> RIGHT
         if (index % 2 === 0) {
             galleryLeft.appendChild(imgContainer);
         } else {
@@ -397,59 +393,53 @@ function populateCelebrationGallery() {
         }
     });
 
-    // Triple duplicate for truly smooth infinite scroll
+    // Duplicate ONCE for smooth loop
     const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
-    for (let i = 0; i < 3; i++) {
-        leftItems.forEach(item => {
-            galleryLeft.appendChild(item.cloneNode(true));
-        });
-    }
+    leftItems.forEach(item => {
+        galleryLeft.appendChild(item.cloneNode(true));
+    });
 
     const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
-    for (let i = 0; i < 3; i++) {
-        rightItems.forEach(item => {
-            galleryRight.appendChild(item.cloneNode(true));
-        });
-    }
+    rightItems.forEach(item => {
+        galleryRight.appendChild(item.cloneNode(true));
+    });
 }
 
 function initializeGallery() {
     const galleryLeft = document.getElementById('galleryLeft');
     const galleryRight = document.getElementById('galleryRight');
 
-    // Support img1-img12.webp
+    // All 12 images
     const availableImages = [
-        'assets/images/img1.webp',   // odd - goes to left
-        'assets/images/img2.webp',   // even - goes to right
-        'assets/images/img3.webp',   // odd - goes to left
-        'assets/images/img4.webp',   // even - goes to right
-        'assets/images/img5.webp',   // odd - goes to left
-        'assets/images/img6.webp',   // even - goes to right
-        'assets/images/img7.webp',   // odd - goes to left
-        'assets/images/img8.webp',   // even - goes to right
-        'assets/images/img9.webp',   // odd - goes to left
-        'assets/images/img10.webp',  // even - goes to right
-        'assets/images/img11.webp',  // odd - goes to left
-        'assets/images/img12.webp'   // even - goes to right
+        'assets/images/img1.webp',
+        'assets/images/img2.webp',
+        'assets/images/img3.webp',
+        'assets/images/img4.webp',
+        'assets/images/img5.webp',
+        'assets/images/img6.webp',
+        'assets/images/img7.webp',
+        'assets/images/img8.webp',
+        'assets/images/img9.webp',
+        'assets/images/img10.webp',
+        'assets/images/img11.webp',
+        'assets/images/img12.webp'
     ];
 
-    // Distribute images: odd numbers to left, even numbers to right
+    // Split: odd to left, even to right
     availableImages.forEach((imgPath, index) => {
         const imgContainer = document.createElement('div');
         imgContainer.className = 'gallery-item';
 
         const img = document.createElement('img');
         img.src = imgPath;
-        img.alt = '';
-
+        img.alt = `Photo ${index + 1}`;
+        img.loading = 'lazy';
         img.onerror = function() {
             console.warn(`Image failed to load: ${imgPath}`);
-            this.parentElement.style.display = 'none';
         };
 
         imgContainer.appendChild(img);
 
-        // Odd numbered images (1,3,5,7,9,11) to left, even (2,4,6,8,10,12) to right
         if (index % 2 === 0) {
             galleryLeft.appendChild(imgContainer);
         } else {
@@ -457,32 +447,18 @@ function initializeGallery() {
         }
     });
 
-    // // Triple duplicate for truly smooth infinite scroll
-    // const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
-    // for (let i = 0; i < 3; i++) {
-    //     leftItems.forEach(item => {
-    //         galleryLeft.appendChild(item.cloneNode(true));
-    //     });
-    // }
+    // Duplicate ONCE for smooth loop
+    const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
+    leftItems.forEach(item => {
+        galleryLeft.appendChild(item.cloneNode(true));
+    });
 
-   const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
-   leftItems.forEach(item => {
-       galleryLeft.appendChild(item.cloneNode(true));
-   });
+    const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
+    rightItems.forEach(item => {
+        galleryRight.appendChild(item.cloneNode(true));
+    });
+}
 
-//     const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
-//     for (let i = 0; i < 3; i++) {
-//         rightItems.forEach(item => {
-//             galleryRight.appendChild(item.cloneNode(true));
-//         });
-//     }
-// }
-
-   const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
-   rightItems.forEach(item => {
-       galleryRight.appendChild(item.cloneNode(true));
-   });
-   
 // Back button from gallery
 document.getElementById('backFromGalleryBtn').addEventListener('click', function () {
     yesPresses = 0;
