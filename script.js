@@ -4,7 +4,7 @@
    ================================================================ */
 
 // Configuration Constants
-const PASSWORD = "ilovebadmosi";
+const PASSWORD = "ilovebb";
 let valentineData = null;
 let currentDayIndex = 0;
 
@@ -53,7 +53,8 @@ function loadFallbackData() {
             tenorId: "16918696612896855928"
         },
         accessDenied: {
-            tenorId: "26291282"
+            tenorId: "16578671122851061924"
+               // "26291282"
         },
         valentineDays: [
             {
@@ -115,7 +116,7 @@ document.getElementById('passwordForm').addEventListener('submit', function (e) 
     errorDiv.innerHTML = '';
 
     // Validate credentials
-    if (name.toLowerCase() !== 'Potato') {
+    if (name.toLowerCase() !== 'potato') {
         // Access denied - show running man GIF
         errorDiv.innerHTML = `
             <div style="text-align: center;">
