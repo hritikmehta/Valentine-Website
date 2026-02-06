@@ -115,7 +115,7 @@ body {
         opacity: 1;
     }
     100% {
-        transform: translate(var(--tx), var(--ty)) scale(0);
+        transform: translate(var(--tx), var(--ty))) scale(0);
         opacity: 0;
     }
 }
@@ -383,7 +383,7 @@ body {
 }
 
 /* ================================================================
-   PAGE 3: CELEBRATION PAGE - TRULY INFINITE CAROUSEL
+   PAGE 3: CELEBRATION PAGE - SIMPLE BOTTOM TO TOP SCROLL
    ================================================================ */
 
 .celebration-container {
@@ -444,54 +444,34 @@ body {
 
 .celebration-gallery-side {
     flex: 0.5;
-    height: 60vh;
-    min-width: 200px;
+    height: 70vh;
+    min-width: 220px;
     display: flex;
     flex-direction: column;
     gap: 0;
     overflow: hidden;
     border-radius: 20px;
     background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(233, 30, 99, 0.1));
-    padding: 0;
+    padding: 10px;
 }
 
-/* LEFT COLUMN - Scrolls DOWN continuously */
-.celebration-gallery-left .gallery-column {
+/* BOTH columns scroll from bottom to top */
+.celebration-gallery-side .gallery-column {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
     overflow: hidden;
-    animation: scroll-down-continuous 30s linear infinite;
+    animation: simple-scroll-up 40s linear infinite;
 }
 
-/* RIGHT COLUMN - Scrolls UP continuously */
-.celebration-gallery-right .gallery-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    overflow: hidden;
-    animation: scroll-down-continuous 30s linear infinite;
-}
-
-/* Continuous scroll DOWN - loops back seamlessly because content is 4x duplicated */
-@keyframes scroll-down-continuous {
+/* Simple scroll up animation - both sides same direction */
+@keyframes simple-scroll-up {
     0% {
         transform: translateY(0);
     }
     100% {
         transform: translateY(-50%);
-    }
-}
-
-/* Continuous scroll UP - loops back seamlessly */
-@keyframes scroll-up-continuous {
-    0% {
-        transform: translateY(-50%);
-    }
-    100% {
-        transform: translateY(0);
     }
 }
 
@@ -610,7 +590,7 @@ body {
     display: flex;
     gap: 20px;
     justify-content: center;
-    height: 60vh;
+    height: 70vh;
     overflow: hidden;
     border-radius: 20px;
     background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(233, 30, 99, 0.1));
@@ -621,59 +601,39 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
     overflow: hidden;
     height: 100%;
 }
 
 .gallery-item {
     flex-shrink: 0;
+    width: 100%;
+    height: auto;
+    min-height: 200px;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(233, 30, 99, 0.2);
     transition: transform 0.3s ease;
+    background: #fff;
 }
 
 .gallery-item img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     display: block;
-    loading: lazy;
-    font-size: 0;
-    color: transparent;
+    object-fit: contain;
+    border-radius: 15px;
 }
 
 .gallery-item:hover {
     transform: scale(1.02);
 }
 
-/* LEFT gallery scrolls UP */
-.gallery-left {
-    animation: gallery-scroll-up 25s linear infinite;
-}
-
-/* RIGHT gallery scrolls DOWN */
+/* BOTH galleries scroll from bottom to top */
+.gallery-left,
 .gallery-right {
-    animation: gallery-scroll-down 25s linear infinite;
-}
-
-@keyframes gallery-scroll-up {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(-25%);
-    }
-}
-
-@keyframes gallery-scroll-down {
-    0% {
-        transform: translateY(-25%);
-    }
-    100% {
-        transform: translateY(0);
-    }
+    animation: simple-scroll-up 40s linear infinite;
 }
 
 /* Pause animation on hover */
@@ -721,6 +681,10 @@ body {
         flex-direction: column;
         height: auto;
         max-height: 80vh;
+    }
+
+    .celebration-gallery-side {
+        min-width: 150px;
     }
 
     .back-btn {
