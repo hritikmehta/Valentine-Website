@@ -101,110 +101,150 @@ function loadFallbackData() {
 }
 
 /* ================================================================
-   PAGE 1: PASSWORD/IDENTITY LOGIC
+   EVENT LISTENERS - WRAPPED IN DOMContentLoaded
    ================================================================ */
 
-document.getElementById('passwordForm').addEventListener('submit', function (e) {
-    e.preventDefault();
+function setupEventListeners() {
+    // PASSWORD FORM SUBMISSION
+    const passwordForm = document.getElementById('passwordForm');
+    if (passwordForm) {
+        passwordForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
 
-    const name = document.getElementById('nameInput').value.trim();
-    const password = document.getElementById('passwordInput').value;
-    const errorDiv = document.getElementById('errorMessage');
+            const name = document.getElementById('nameInput').value.trim();
+            const password = document.getElementById('passwordInput').value;
+            const errorDiv = document.getElementById('errorMessage');
 
-    // Clear previous error
-    errorDiv.innerHTML = '';
+            // Clear previous error
+            errorDiv.innerHTML = '';
 
-    // Validate credentials
-    if (name.toLowerCase() !== 'potato') {
-        // Access denied - show running man GIF
-        errorDiv.innerHTML = `
-            <div style="text-align: center;">
-                <p style="font-size: 1.2rem; margin-bottom: 20px;">🏃 Access denied 😜</p>
-                <p>This is only for Tanvi!</p>
-                <div class="tenor-container" style="margin-top: 20px;">
-                    <div class="tenor-gif-embed" data-postid="26291282" data-share-method="host" data-aspect-ratio="1" data-width="100%"></div>
-                </div>
-            </div>
-        `;
-        return;
+            // Validate credentials
+            if (name.toLowerCase() !== 'potato') {
+                // Access denied - show running man GIF
+                errorDiv.innerHTML = `
+                    <div style="text-align: center;">
+                        <p style="font-size: 1.2rem; margin-bottom: 20px;">🏃 Access denied 😜</p>
+                        <p>This is only for Tanvi!</p>
+                        <div class="tenor-container" style="margin-top: 20px;">
+                            <div class="tenor-gif-embed" data-postid="26291282" data-share-method="host" data-aspect-ratio="1" data-width="100%"></div>
+                        </div>
+                    </div>
+                `;
+                return false;
+            }
+
+            if (password !== PASSWORD) {
+                errorDiv.innerHTML = '❌ Wrong password! Try again.';
+                return false;
+            }
+
+            // All correct - proceed to proposal page
+            console.log('✅ Password correct! Proceeding to proposal page...');
+            document.body.classList.add('post-auth');
+            showPage('proposalPage');
+            document.getElementById('nameInput').value = '';
+            document.getElementById('passwordInput').value = '';
+            return false;
+        }, true); // Use capture phase
     }
 
-    if (password !== PASSWORD) {
-        errorDiv.innerHTML = '❌ Wrong password! Try again.';
-        return;
-    }
-
-    // All correct - proceed to proposal page
-    document.body.classList.add('post-auth');
-    showPage('proposalPage');
-    document.getElementById('nameInput').value = '';
-    document.getElementById('passwordInput').value = '';
-});
-
-/* ================================================================
-   PAGE 2: PROPOSAL LOGIC
-   ================================================================ */
-
-let yesPresses = 0;
-
-document.getElementById('yesBtn').addEventListener('click', function () {
-    yesPresses++;
-    currentDayIndex = (yesPresses - 1) % valentineData.valentineDays.length;
-
-    // Trigger celebrations
-    createBalloons();
-    createConfetti();
-    createSparkles();
-
-    // Show celebration page
-    showCelebrationPage();
-});
-
-/**
- * Track cursor movement for YES button - Expand toward cursor direction
- */
-document.addEventListener('mousemove', function (e) {
-    const yesBtn = document.getElementById('yesBtn');
-
-    if (yesBtn && yesBtn.offsetParent !== null) {
-        const btnRect = yesBtn.getBoundingClientRect();
-        const btnCenterX = btnRect.left + btnRect.width / 2;
-        const btnCenterY = btnRect.top + btnRect.height / 2;
-
-        // Calculate distance from cursor to button
-        const dx = e.clientX - btnCenterX;
-        const dy = e.clientY - btnCenterY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        // Scale button based on proximity - closer = bigger
-        const maxDistance = 500;
-        const scale = Math.max(1, 2 - (distance / maxDistance));
-
-        // Move button slightly toward cursor
-        const angle = Math.atan2(dy, dx);
-        const moveAmount = 25;
-        const moveX = Math.cos(angle) * moveAmount;
-        const moveY = Math.sin(angle) * moveAmount;
-
-        yesBtn.style.transform = `translate(${moveX}px, ${moveY}px) scale(${scale})`;
-    }
-});
-
-// Reset button on mouse leave
-document.addEventListener('mouseleave', function () {
+    // YES BUTTON
     const yesBtn = document.getElementById('yesBtn');
     if (yesBtn) {
-        yesBtn.style.transform = 'translate(0, 0) scale(1)';
-    }
-});
+        yesBtn.addEventListener('click', function () {
+            yesPresses++;
+            currentDayIndex = (yesPresses - 1) % valentineData.valentineDays.length;
 
-// NO button runs far away when hovered
-document.getElementById('noBtn').addEventListener('mouseenter', function () {
-    const randomX = (Math.random() - 0.5) * 500;
-    const randomY = (Math.random() - 0.5) * 500;
-    this.style.position = 'fixed';
-    this.style.transform = `translate(${randomX}px, ${randomY}px)`;
-});
+            // Trigger celebrations
+            createBalloons();
+            createConfetti();
+            createSparkles();
+
+            // Show celebration page
+            showCelebrationPage();
+        });
+    }
+
+    // NO BUTTON  
+    const noBtn = document.getElementById('noBtn');
+    if (noBtn) {
+        noBtn.addEventListener('mouseenter', function () {
+            const randomX = (Math.random() - 0.5) * 500;
+            const randomY = (Math.random() - 0.5) * 500;
+            this.style.position = 'fixed';
+            this.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        });
+    }
+
+    // BACK BUTTON FROM CELEBRATION
+    const backBtn = document.getElementById('backBtn');
+    if (backBtn) {
+        backBtn.addEventListener('click', function () {
+            showPage('proposalPage');
+        });
+    }
+
+    // NEXT BUTTON
+    const nextBtn = document.getElementById('nextBtn');
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function () {
+            currentDayIndex = (currentDayIndex + 1) % valentineData.valentineDays.length;
+            
+            // Trigger celebrations
+            createBalloons();
+            createConfetti();
+            createSparkles();
+            
+            showCelebrationPage();
+        });
+    }
+
+    // BACK BUTTON FROM GALLERY
+    const backFromGalleryBtn = document.getElementById('backFromGalleryBtn');
+    if (backFromGalleryBtn) {
+        backFromGalleryBtn.addEventListener('click', function () {
+            yesPresses = 0;
+            currentDayIndex = 0;
+            showPage('proposalPage');
+        });
+    }
+
+    // YES BUTTON CURSOR TRACKING
+    document.addEventListener('mousemove', function (e) {
+        const btn = document.getElementById('yesBtn');
+        if (btn && btn.offsetParent !== null) {
+            const btnRect = btn.getBoundingClientRect();
+            const btnCenterX = btnRect.left + btnRect.width / 2;
+            const btnCenterY = btnRect.top + btnRect.height / 2;
+
+            // Calculate distance from cursor to button
+            const dx = e.clientX - btnCenterX;
+            const dy = e.clientY - btnCenterY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // Scale button based on proximity - closer = bigger
+            const maxDistance = 500;
+            const scale = Math.max(1, 2 - (distance / maxDistance));
+
+            // Move button slightly toward cursor
+            const angle = Math.atan2(dy, dx);
+            const moveAmount = 25;
+            const moveX = Math.cos(angle) * moveAmount;
+            const moveY = Math.sin(angle) * moveAmount;
+
+            btn.style.transform = `translate(${moveX}px, ${moveY}px) scale(${scale})`;
+        }
+    });
+
+    // RESET YES BUTTON ON MOUSE LEAVE
+    document.addEventListener('mouseleave', function () {
+        const btn = document.getElementById('yesBtn');
+        if (btn) {
+            btn.style.transform = 'translate(0, 0) scale(1)';
+        }
+    });
+}
 
 /* ================================================================
    PAGE 3: CELEBRATION LOGIC
@@ -236,23 +276,6 @@ function showCelebrationPage() {
     // Populate celebration gallery with images
     populateCelebrationGallery();
 }
-
-// Back button from celebration page
-document.getElementById('backBtn').addEventListener('click', function () {
-    showPage('proposalPage');
-});
-
-// Next button - cycle to next day
-document.getElementById('nextBtn').addEventListener('click', function () {
-    currentDayIndex = (currentDayIndex + 1) % valentineData.valentineDays.length;
-    
-    // Trigger celebrations
-    createBalloons();
-    createConfetti();
-    createSparkles();
-    
-    showCelebrationPage();
-});
 
 /* ================================================================
    CELEBRATION EFFECTS
@@ -452,13 +475,6 @@ function initializeGallery() {
     });
 }
 
-// Back button from gallery
-document.getElementById('backFromGalleryBtn').addEventListener('click', function () {
-    yesPresses = 0;
-    currentDayIndex = 0;
-    showPage('proposalPage');
-});
-
 /* ================================================================
    INITIALIZATION
    ================================================================ */
@@ -466,6 +482,9 @@ document.getElementById('backFromGalleryBtn').addEventListener('click', function
 document.addEventListener('DOMContentLoaded', async function () {
     // Load valentine data
     await loadValentineData();
+
+    // Setup all event listeners
+    setupEventListeners();
 
     // Initialize gallery
     initializeGallery();
