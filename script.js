@@ -457,22 +457,32 @@ function initializeGallery() {
         }
     });
 
-    // Triple duplicate for truly smooth infinite scroll
-    const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
-    for (let i = 0; i < 3; i++) {
-        leftItems.forEach(item => {
-            galleryLeft.appendChild(item.cloneNode(true));
-        });
-    }
+    // // Triple duplicate for truly smooth infinite scroll
+    // const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
+    // for (let i = 0; i < 3; i++) {
+    //     leftItems.forEach(item => {
+    //         galleryLeft.appendChild(item.cloneNode(true));
+    //     });
+    // }
 
-    const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
-    for (let i = 0; i < 3; i++) {
-        rightItems.forEach(item => {
-            galleryRight.appendChild(item.cloneNode(true));
-        });
-    }
-}
+   const leftItems = [...galleryLeft.querySelectorAll('.gallery-item')];
+   leftItems.forEach(item => {
+       galleryLeft.appendChild(item.cloneNode(true));
+   });
 
+//     const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
+//     for (let i = 0; i < 3; i++) {
+//         rightItems.forEach(item => {
+//             galleryRight.appendChild(item.cloneNode(true));
+//         });
+//     }
+// }
+
+   const rightItems = [...galleryRight.querySelectorAll('.gallery-item')];
+   rightItems.forEach(item => {
+       galleryRight.appendChild(item.cloneNode(true));
+   });
+   
 // Back button from gallery
 document.getElementById('backFromGalleryBtn').addEventListener('click', function () {
     yesPresses = 0;
