@@ -31,7 +31,7 @@ html, body {
 }
 
 body.post-auth {
-    background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(233, 30, 99, 0.2)), url('assets/images/HnT.png') no-repeat center center;
+    background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(233, 30, 99, 0.2)), url('assets/images/BackGround.png') no-repeat center center;
     background-size: cover;
     background-attachment: fixed;
     background-color: #ffe4e9;
