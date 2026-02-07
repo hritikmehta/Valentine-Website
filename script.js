@@ -116,7 +116,7 @@ document.getElementById('passwordForm').addEventListener('submit', function (e) 
     errorDiv.innerHTML = '';
 
     // Validate credentials
-    if (name.toLowerCase() !== 'Love') {
+    if (name.toLowerCase() !== 'love') {
         // Access denied - show running man GIF
         errorDiv.innerHTML = `
             <div style="text-align: center;">
