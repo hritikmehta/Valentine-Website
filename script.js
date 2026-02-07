@@ -121,7 +121,7 @@ document.getElementById('passwordForm').addEventListener('submit', function (e) 
         errorDiv.innerHTML = `
             <div style="text-align: center;">
                 <p style="font-size: 1.2rem; margin-bottom: 20px;">🏃 Access denied 😜</p>
-                <p>This is only for Tanvi!</p>
+                <p>This is only for my love!</p>
                 <div class="tenor-container" style="margin-top: 20px;">
                     <div class="tenor-gif-embed" data-postid="26291282" data-share-method="host" data-aspect-ratio="1" data-width="100%"></div>
                 </div>
@@ -138,7 +138,7 @@ document.getElementById('passwordForm').addEventListener('submit', function (e) 
     }
 
     if (password !== PASSWORD) {
-        errorDiv.innerHTML = '❌ Wrong password! Try again.';
+        errorDiv.innerHTML = '❌ Wrong password! Try again';
         return;
     }
 
